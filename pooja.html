@@ -1158,26 +1158,49 @@
     };
     document.getElementById('payConfirmBtn').textContent = btnLabels[method];
   }
-
-  /* ── App launch — exactly matching first code logic ── */
   function launchUpiApp(event, app) {
-    event.preventDefault();
-    const checked = getChecked();
-    const amount  = checked.reduce((s,c) => s+parseInt(c.dataset.price||0), 0);
-    if (!amount || amount < 1) {
-      const isTE = (currentLang === 'te');
-      showToast(isTE ? 'ఉచిత సేవలు మాత్రమే ఉన్నాయి — చెల్లింపు అవసరం లేదు' : 'Only free sevas selected — no payment needed');
-      return;
-    }
-    const base = `pa=${encodeURIComponent(UPI_ID)}&pn=${UPI_NAME}&am=${amount}&cu=INR&tn=${UPI_NOTE}`;
-    const schemes = {
-      gpay:    `tez://upi/pay?${base}`,
-      phonepe: `phonepe://pay?${base}`,
-      paytm:   `paytmmp://pay?${base}`,
-      bhim:    `upi://pay?${base}`,
-    };
-    window.location.href = schemes[app] || `upi://pay?${base}`;
-  }
+  event.preventDefault();
+
+  const upiId  = "8520087620@axl";
+  const name   = "Your Business Name";        // change this
+  const amount = getOrderAmount();             // your order total variable
+  const note   = "Order Payment";
+
+  const upiUri = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
+
+  const intentMap = {
+    gpay:    `tez://upi/pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR`,
+    phonepe: `phonepe://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR`,
+    paytm:   `paytmmp://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR`,
+    bhim:    upiUri
+  };
+
+  window.location.href = intentMap[app] || upiUri;
+
+  // Fallback to generic UPI if the specific app isn't installed
+  setTimeout(() => { window.location.href = upiUri; }, 2000);
+}
+
+  // /* ── App launch — exactly matching first code logic ── */
+  // function launchUpiApp(event, app) {
+  //   event.preventDefault();
+  //   const checked = getChecked();
+  //   const amount  = checked.reduce((s,c) => s+parseInt(c.dataset.price||0), 0);
+  //   if (!amount || amount < 1) {
+  //     const isTE = (currentLang === 'te');
+  //     showToast(isTE ? 'ఉచిత సేవలు మాత్రమే ఉన్నాయి — చెల్లింపు అవసరం లేదు' : 'Only free sevas selected — no payment needed');
+  //     return;
+  //   }
+  //   const base = `pa=${encodeURIComponent(UPI_ID)}&pn=${UPI_NAME}&am=${amount}&cu=INR&tn=${UPI_NOTE}`;
+  //   const schemes = {
+  //     gpay:    `tez://upi/pay?${base}`,
+  //     phonepe: `phonepe://pay?${base}`,
+  //     paytm:   `paytmmp://pay?${base}`,
+  //     bhim:    `upi://pay?${base}`,
+  //   };
+  //   window.location.href = schemes[app] || `upi://pay?${base}`;
+  // }
+
 
   /* ── Process payment ── */
   function processPayment() {
