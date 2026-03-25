@@ -1401,30 +1401,6 @@
     t.textContent = msg; t.classList.add('show');
     setTimeout(() => t.classList.remove('show'), 3000);
   }
-  
-function launchUpiApp(event, app) {
-  event.preventDefault();
-
-  const upiId  = "8520087620@axl";
-  const name   = "Your Business Name";        // change this
-  const amount = getOrderAmount();             // your order total variable
-  const note   = "Order Payment";
-
-  const upiUri = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
-
-  const intentMap = {
-    gpay:    `tez://upi/pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR`,
-    phonepe: `phonepe://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR`,
-    paytm:   `paytmmp://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR`,
-    bhim:    upiUri
-  };
-
-  window.location.href = intentMap[app] || upiUri;
-
-  // Fallback to generic UPI if the specific app isn't installed
-  setTimeout(() => { window.location.href = upiUri; }, 2000);
-}
-  
 </script>
 </body>
 </html>
