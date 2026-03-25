@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shri Tantra Ganapathi Swami Vari Alayam – A Sanctuary of Peace and Devotion</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Tiro+Devanagari+Sanskrit&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Tiro+Telugu&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="static/style.css">
+
+<style>
+
+/* ═══════════════════════════════════════
+   LANGUAGE TOGGLE BAR
+═══════════════════════════════════════ */
+.lang-bar {
+  width: 100%;
+  background: linear-gradient(90deg, #1a0800, #2a1200, #1a0800);
+  border-bottom: 1px solid rgba(255,215,0,0.25);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 7px 28px;
+  gap: 10px;
+  position: relative;
+  z-index: 1100;
+}
+.lang-bar-label {
+  font-size: 12px;
+  color: rgba(253,240,190,0.55);
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.08em;
+  margin-right: 4px;
+}
+.lang-toggle {
+  display: flex;
+  align-items: center;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,215,0,0.3);
+  border-radius: 50px;
+  padding: 3px;
+  gap: 2px;
+  cursor: pointer;
+  user-select: none;
+}
+.lang-opt {
+  padding: 5px 16px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.06em;
+  color: rgba(253,240,190,0.55);
+  transition: all 0.25s;
+  white-space: nowrap;
+}
+.lang-opt.active {
+  background: linear-gradient(135deg, #b8860b, #ffd700);
+  color: #1a0800;
+  box-shadow: 0 2px 10px rgba(255,215,0,0.35);
+}
+.lang-flag { margin-right: 4px; }
+
+/* ═══════════════════════════════════════
+   OFFERINGS GRID — 3 equal columns
+   Community Seva card fully removed.
+   Each <a> wrapper is a direct grid child.
+═══════════════════════════════════════ */
+.offerings-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px 48px;
+  align-items: stretch;
+}
+.offerings-grid > a {
+  display: flex;           /* make the anchor stretch to fill row height */
+  text-decoration: none;
+}
+.offerings-grid > a .offering-card {
+  flex: 1;                 /* card fills the anchor */
+  display: flex;
+  flex-direction: column;
+}
+.offerings-grid > a .offering-card p {
+  flex: 1;                 /* push price tag to the bottom */
+}
+@media (max-width: 900px) {
+  .offerings-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .offerings-grid { grid-template-columns: 1fr; padding: 0 16px 32px; gap: 20px; }
+}
+
+/* ═══════════════════════════════════════
+   Admin System Styles
+═══════════════════════════════════════ */
+.nav-admin {
+  background: rgba(255,215,0,0.1) !important;
+  border: 1px solid rgba(255,215,0,0.3) !important;
+  border-radius: 6px !important;
+  padding: 6px 12px !important;
+  transition: all 0.2s !important;
+}
+.nav-admin:hover { background: rgba(255,215,0,0.2) !important; color: #ffd700 !important; }
+
+.admin-modal {
+  display: none; position: fixed; z-index: 1000; left: 0; top: 0;
+  width: 100%; height: 100%; background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(5px);
+}
+.admin-modal-content {
+  background: linear-gradient(135deg, #1a0a00, #2a1500);
+  margin: 8% auto; padding: 40px; border: 2px solid #ffd700;
+  border-radius: 20px; width: 90%; max-width: 450px;
+  box-shadow: 0 0 50px rgba(255,215,0,0.3);
+  animation: adminFadeIn 0.3s ease;
+}
+.admin-dashboard-content {
+  background: linear-gradient(135deg, #1a0a00, #2a1500);
+  margin: 2% auto; padding: 30px; border: 2px solid #ffd700;
+  border-radius: 20px; width: 95%; max-width: 1000px;
+  max-height: 90vh; overflow-y: auto;
+  box-shadow: 0 0 50px rgba(255,215,0,0.3);
+}
+.admin-close { color: #ffd700; float: right; font-size: 32px; font-weight: bold; cursor: pointer; line-height: 1; }
+.admin-close:hover { color: #fff; }
+.admin-header { text-align: center; margin-bottom: 30px; }
+.admin-icon { font-size: 48px; margin-bottom: 10px; }
+.admin-header h2 { font-family: 'Cinzel', serif; color: #ffd700; margin-bottom: 8px; font-size: 24px; }
+.admin-header p { color: rgba(255,255,255,0.7); font-size: 14px; }
+.admin-form-group { margin-bottom: 20px; }
+.admin-form-group label { display: block; color: #ffd98e; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+.admin-form-group input { width: 100%; padding: 12px; border: 1.5px solid rgba(255,215,0,0.3); border-radius: 8px; background: rgba(255,255,255,0.1); color: #fff; font-size: 16px; outline: none; transition: border-color 0.3s; }
+.admin-form-group input:focus { border-color: #ffd700; box-shadow: 0 0 0 3px rgba(255,215,0,0.2); }
+.admin-login-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, #b8860b, #ffd700); border: none; border-radius: 8px; color: #1a0a00; font-size: 16px; font-weight: 700; cursor: pointer; margin-bottom: 15px; transition: transform 0.2s; }
+.admin-login-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(255,215,0,0.4); }
+.admin-links { text-align: center; }
+.admin-links a { color: #ffd98e; text-decoration: none; font-size: 14px; }
+.admin-links a:hover { color: #ffd700; text-decoration: underline; }
+.admin-error { background: rgba(255,107,107,0.2); border: 1px solid #ff6b6b; color: #ff9a9a; padding: 12px; border-radius: 8px; margin-top: 15px; display: none; text-align: center; }
+.admin-success { background: rgba(105,219,124,0.2); border: 1px solid #69db7c; color: #69db7c; padding: 12px; border-radius: 8px; margin-top: 15px; display: none; text-align: center; }
+.admin-back-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,215,0,0.5); color: #ffd98e; padding: 10px 20px; border-radius: 6px; cursor: pointer; margin-left: 10px; }
+.admin-dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,215,0,0.3); }
+.admin-dashboard-header h2 { font-family: 'Cinzel', serif; color: #ffd700; font-size: 24px; }
+.admin-logout-btn { background: rgba(255,107,107,0.2); border: 1px solid #ff6b6b; color: #ff9a9a; padding: 8px 16px; border-radius: 6px; cursor: pointer; }
+.admin-dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 30px; }
+.admin-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,215,0,0.2); border-radius: 12px; padding: 24px; transition: transform 0.2s; }
+.admin-card:hover { transform: translateY(-4px); border-color: rgba(255,215,0,0.4); }
+.admin-card h3 { color: #ffd700; font-size: 18px; margin-bottom: 8px; font-family: 'Cinzel', serif; }
+.admin-card p { color: rgba(255,255,255,0.7); margin-bottom: 15px; line-height: 1.6; }
+.admin-btn { background: linear-gradient(135deg, #b8860b, #ffd700); border: none; color: #1a0a00; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: transform 0.2s; }
+.admin-btn:hover { transform: translateY(-2px); }
+.admin-section { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,215,0,0.2); border-radius: 12px; padding: 24px; margin-top: 20px; }
+@keyframes adminFadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+
+/* ═══════════════════════════════════════
+   RESPONSIVE NAV — Mobile Hamburger
+═══════════════════════════════════════ */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  height: 68px;
+  background: linear-gradient(90deg, #1a0800, #2a1200, #1a0800);
+  border-bottom: 1px solid rgba(255,215,0,0.2);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.5);
+}
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  flex-shrink: 0;
+  max-width: calc(100% - 60px);
+}
+.om-symbol {
+  font-size: 28px;
+  color: #ffd700;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.brand-name {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(11px, 2vw, 16px);
+  color: #ffd700;
+  letter-spacing: 0.04em;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 55vw;
+}
+.brand-devanagari {
+  font-family: 'Tiro Telugu', serif;
+  font-size: clamp(9px, 1.5vw, 12px);
+  color: rgba(255,215,0,0.55);
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 55vw;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nav-links a {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: rgba(253,240,190,0.75);
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 5px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.nav-links a:hover, .nav-links a.active { color: #ffd700; background: rgba(255,215,0,0.08); }
+.nav-donate {
+  background: linear-gradient(135deg, rgba(184,134,11,0.25), rgba(255,215,0,0.15)) !important;
+  border: 1px solid rgba(255,215,0,0.35) !important;
+  color: #ffd700 !important;
+  padding: 7px 14px !important;
+  border-radius: 6px !important;
+}
+.nav-donate:hover { background: rgba(255,215,0,0.25) !important; }
+
+/* Hamburger button */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  background: rgba(255,215,0,0.08);
+  border: 1px solid rgba(255,215,0,0.3);
+  border-radius: 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+  z-index: 1100;
+}
+.nav-hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #ffd700;
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+.nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Mobile drawer overlay */
+.nav-drawer-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 990;
+  backdrop-filter: blur(3px);
+}
+.nav-drawer-overlay.show { display: block; }
+
+/* Mobile nav drawer */
+@media (max-width: 860px) {
+  nav { padding: 0 16px; }
+  .nav-hamburger { display: flex; }
+  .brand-name { max-width: calc(100vw - 130px); font-size: clamp(10px,3.5vw,14px); }
+  .brand-devanagari { display: none; }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: min(280px, 80vw);
+    height: 100vh;
+    background: linear-gradient(160deg, #1a0800, #2e1200);
+    border-left: 1px solid rgba(255,215,0,0.25);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    padding: 80px 0 32px;
+    z-index: 995;
+    transition: right 0.35s cubic-bezier(0.4,0,0.2,1);
+    box-shadow: -8px 0 32px rgba(0,0,0,0.6);
+  }
+  .nav-links.open { right: 0; }
+
+  .nav-links li { width: 100%; }
+  .nav-links a {
+    display: block;
+    width: 100%;
+    padding: 15px 28px;
+    font-size: 13px;
+    border-radius: 0;
+    border-bottom: 1px solid rgba(255,215,0,0.07);
+    color: rgba(253,240,190,0.85);
+    letter-spacing: 0.1em;
+  }
+  .nav-links a:hover, .nav-links a.active {
+    background: rgba(255,215,0,0.1);
+    color: #ffd700;
+    padding-left: 36px;
+  }
+  .nav-donate {
+    margin: 16px 20px 0 !important;
+    border-radius: 8px !important;
+    text-align: center;
+    padding: 12px 20px !important;
+  }
+}
+
+/* ═══════════════════════════════════════
+   IMAGE FALLBACKS — Vercel deployment
+═══════════════════════════════════════ */
+img {
+  max-width: 100%;
+  display: block;
+}
+/* Placeholder shown when image fails to load */
+img.img-error {
+  background: linear-gradient(135deg, #2e1a0a, #3d2010);
+  border: 1px dashed rgba(255,215,0,0.3);
+  min-height: 60px;
+}
+
+/* ═══════════════════════════════════════
+   GLOBAL MOBILE RESPONSIVE FIXES
+═══════════════════════════════════════ */
+@media (max-width: 768px) {
+  .admin-modal-content, .admin-dashboard-content { width: 95%; margin: 10px auto; padding: 20px; }
+  .admin-dashboard-grid { grid-template-columns: 1fr; }
+  .lang-bar { padding: 7px 14px; }
+  .lang-bar-label { display: none; }
+
+  /* Hero responsive */
+  .hero-content h1 { font-size: clamp(24px, 6vw, 42px) !important; }
+  .hero-actions { flex-direction: column; align-items: center; gap: 16px; }
+  .hero-actions a { width: 90%; max-width: 260px; }
+
+  /* About grid stack */
+  .about-grid { grid-template-columns: 1fr !important; }
+
+  /* Events container stack */
+  .events-container { grid-template-columns: 1fr !important; flex-direction: column; }
+
+  /* Gallery */
+  .gallery-grid { grid-template-columns: repeat(2, 1fr) !important; }
+
+  /* Contact strip */
+  .contact-strip { flex-direction: column !important; gap: 20px !important; padding: 28px 20px !important; }
+
+  /* Footer */
+  .footer-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+
+  /* Timings */
+  .timing-row { flex-direction: column !important; gap: 4px !important; align-items: flex-start !important; }
+}
+
+@media (max-width: 480px) {
+  .gallery-grid { grid-template-columns: 1fr !important; }
+  .about-stats { flex-direction: column; gap: 16px; }
+  .hero-actions a img { width: 80px !important; height: 64px !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- LANGUAGE TOGGLE BAR -->
+<div class="lang-bar" id="langBar">
+  <span class="lang-bar-label" id="langBarLabel">Language / భాష :</span>
+  <div class="lang-toggle" onclick="toggleLang()" title="Switch Language">
+    <div class="lang-opt active" id="optTE"><span class="lang-flag">🇮🇳</span> తెలుగు</div>
+    <div class="lang-opt"        id="optEN"><span class="lang-flag">🇬🇧</span> English</div>
+  </div>
+</div>
+
+<!-- NAVIGATION -->
+<div class="nav-drawer-overlay" id="navOverlay" onclick="closeNav()"></div>
+<nav>
+  <a href="#" class="nav-brand">
+    <div class="om-symbol">ॐ</div>
+    <div class="brand-text">
+      <span class="brand-name" data-en="Shri Tantra Ganapathi Swami Vari Alayam" data-te="శ్రీ తంత్ర గణపతి స్వామి వారి ఆలయం">Shri Tantra Ganapathi Swami Vari Alayam</span>
+      <span class="brand-devanagari">శ్రీ తంత్ర గణపతి స్వామి వారి ఆలయం</span>
+    </div>
+  </a>
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#"           class="active" onclick="closeNav()" data-en="Home"          data-te="హోమ్">హోమ్</a></li>
+    <li><a href="#about"                     onclick="closeNav()" data-en="About Us"       data-te="మా గురించి">మా గురించి</a></li>
+    <li><a href="#offerings"                 onclick="closeNav()" data-en="Pujas & Aartis" data-te="పూజలు & ఆరతులు">పూజలు & ఆరతులు</a></li>
+    <li><a href="#events"                    onclick="closeNav()" data-en="Events"         data-te="కార్యక్రమాలు">కార్యక్రమాలు</a></li>
+    <li><a href="#contact"                   onclick="closeNav()" data-en="Contact"        data-te="సంప్రదించండి">సంప్రదించండి</a></li>
+    <li><a href="donate.html" class="nav-donate" data-en="Donate" data-te="విరాళం">విరాళం</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-silhouette"></div>
+  <div class="hero-mandala"></div>
+  <div class="hero-content">
+    <span class="hero-om">ॐ</span>
+    <p class="hero-subtitle" data-en="Tantra Ganapathi Swami Vari Alayam · Est. 1878" data-te="తంత్ర గణపతి స్వామి వారి ఆలయం · స్థాపన: 1878">Tantra Ganapathi Swami Vari Alayam · Est. 1878</p>
+    <h1 data-en="A Sanctuary of<br><em>Peace & Devotion</em>" data-te="శాంతి & భక్తి యొక్క<br><em>పవిత్ర క్షేత్రం</em>">A Sanctuary of<br><em>Peace & Devotion</em></h1>
+    <p class="hero-verse">"యత్ర యోగేశ్వరః కృష్ణో యత్ర పార్థో ధనుర్ధరః — భగవద్గీత 18.78</p>
+    <div class="hero-actions">
+      <a href="#Sivalayam" class="btn-outline" style="display:inline-flex;flex-direction:column;align-items:center;gap:8px;padding:14px 28px;">
+        <img src="uploads/main4-photo.jpeg" alt="Sivalayam icon" style="width:106px;height:86px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,215,0,0.8);" onerror="this.style.display='none'">
+        <span data-en="Sivalayam" data-te="శివాలయం">Sivalayam</span>
+      </a>
+      <a href="#Venkateswara" class="btn-outline" style="display:inline-flex;flex-direction:column;align-items:center;gap:8px;padding:14px 28px;">
+        <img src="uploads/main6-photo.jpeg" alt="Venkateswara icon" style="width:106px;height:86px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,215,0,0.8);" onerror="this.style.display='none'">
+        <span data-en="Venkateswara Alayam" data-te="వెంకటేశ్వర ఆలయం">Venkateswara<br>Alayam</span>
+      </a>
+    </div>
+  </div>
+  <div class="hero-scroll"><div class="scroll-line"></div></div>
+</section>
+
+<!-- MARQUEE -->
+<div class="festival-marquee">
+  <div class="marquee-track">
+    <span class="marquee-item">ఓం భూర్భువః స్వః ।</span>
+    <span class="marquee-item">తత్ సవితుర్వరేణ్యం ।</span>
+    <span class="marquee-item">భర్గో దేవస్య ధీమహి ।</span>
+    <span class="marquee-item">ధియో యో నః ప్రచోదయాత్ ॥</span>
+    <span class="marquee-item">ఓం భూర్భువః స్వః ।</span>
+    <span class="marquee-item">తత్ సవితుర్వరేణ్యం ।</span>
+    <span class="marquee-item">భర్గో దేవస్య ధీమహి ।</span>
+    <span class="marquee-item">ధియో యో నః ప్రచోదయాత్ ॥</span>
+    <span class="marquee-item">ఓం భూర్భువః స్వః ।</span>
+    <span class="marquee-item">తత్ సవితుర్వరేణ్యం ।</span>
+    <span class="marquee-item">భర్గో దేవస్య ధీమహి ।</span>
+    <span class="marquee-item">ధియో యో నః ప్రచోదయాత్ ॥</span>
+  </div>
+</div>
+
+<!-- ABOUT – Ganapathi -->
+<section class="about-section" id="about">
+  <div class="about-grid">
+    <div class="about-image-wrapper reveal">
+      <div class="about-image-frame">
+        <div class="deity-placeholder"><img src="uploads/Main-photo.jpeg" alt="Ganapathi" width="100%" onerror="this.style.opacity=0.3"></div>
+        <div class="corner-ornament tl"></div><div class="corner-ornament tr"></div>
+        <div class="corner-ornament bl"></div><div class="corner-ornament br"></div>
+      </div>
+      <div class="about-badge">
+        <span class="badge-year">18th</span>
+        <span class="badge-label" data-en="Founded" data-te="స్థాపించబడింది">Founded</span>
+      </div>
+    </div>
+    <div class="about-content reveal">
+      <span class="tagline" data-en="Rooted in Sanatan Dharma" data-te="సనాతన ధర్మంలో వేళ్ళూని">Rooted in Sanatan Dharma</span>
+      <h2 data-en="About<br><em>the Dham</em>" data-te="ఆలయం గురించి<br><em>ధామం</em>">About<br><em>the Dham</em></h2>
+      <div class="section-divider" style="justify-content:flex-start;margin:16px 0 28px;">
+        <div class="divider-line"></div><span class="divider-lotus">✦</span><div class="divider-line right"></div>
+      </div>
+      <p data-en="Shri Tantra Ganapathi Swami Vari Alayam is one of the most sacred shrines in Sanatan Dharma. Lord Ganapathi, the remover of obstacles, resides here in Tantra form, bestowing knowledge, wealth, and the path to liberation upon devotees. Daily rituals including Panchamruta Abhishekam, Pancha Harathi, and Nakshatra Harathi are conducted here in accordance with Agama Shastra. Festivals such as Ganesha Chaturthi, Sankatahara Chaturthi, and Vinayaka Vratam are celebrated with great grandeur. Vakratunda Mahakaya Suryakoti Samaprabha — Nirvighnam Kuru Me Deva Sarva Karyeshu Sarvada 🙏"
+         data-te="శ్రీ తంత్ర గణపతి స్వామి వారి ఆలయం సనాతన ధర్మంలో అత్యంత పవిత్రమైన క్షేత్రాలలో ఒకటి. విఘ్నాలను తొలగించే దేవుడైన శ్రీ గణపతి స్వామి ఇక్కడ తంత్ర రూపంలో కొలువై భక్తులకు జ్ఞానం, సంపద మరియు మోక్షమార్గాన్ని ప్రసాదిస్తున్నారు. వక్రతుండ మహాకాయ సూర్యకోటి సమప్రభ — నిర్విఘ్నం కురు మే దేవ సర్వ కార్యేషు సర్వదా 🙏">
+        Shri Tantra Ganapathi Swami Vari Alayam is one of the most sacred shrines in Sanatan Dharma. Lord Ganapathi, the remover of obstacles, resides here in Tantra form, bestowing knowledge, wealth, and the path to liberation upon devotees. Vakratunda Mahakaya Suryakoti Samaprabha — Nirvighnam Kuru Me Deva Sarva Karyeshu Sarvada 🙏
+      </p>
+      <div class="about-stats">
+        <div class="stat-item"><span class="stat-number">46+</span><span class="stat-label" data-en="Years of Seva" data-te="సేవా సంవత్సరాలు">Years of Seva</span></div>
+        <div class="stat-item"><span class="stat-number">12</span><span class="stat-label" data-en="Daily Rituals" data-te="రోజువారీ పూజలు">Daily Rituals</span></div>
+        <div class="stat-item"><span class="stat-number">5000+</span><span class="stat-label" data-en="Devotees" data-te="భక్తులు">Devotees</span></div>
+      </div>
+      <a href="#" class="btn-primary" data-en="Learn More" data-te="మరింత తెలుసుకోండి">Learn More</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT2 – Sivalayam -->
+<section class="about-section" id="about2">
+  <div class="about-grid">
+    <div class="about-image-wrapper reveal">
+      <div class="about-image-frame">
+        <div class="deity-placeholder"><img src="uploads/main4-photo.jpeg" alt="Shivaya" width="100%" onerror="this.style.opacity=0.3"></div>
+        <div class="corner-ornament tl"></div><div class="corner-ornament tr"></div>
+        <div class="corner-ornament bl"></div><div class="corner-ornament br"></div>
+      </div>
+      <div class="about-badge">
+        <span class="badge-year">18th</span>
+        <span class="badge-label" data-en="Founded" data-te="స్థాపించబడింది">Founded</span>
+      </div>
+    </div>
+    <div id="Sivalayam" class="about-content reveal">
+      <span class="tagline" data-en="Rooted in Sanatan Dharma" data-te="సనాతన ధర్మంలో వేళ్ళూని">Rooted in Sanatan Dharma</span>
+      <h2 data-en="About<br><em>the Dham</em>" data-te="ఆలయం గురించి<br><em>ధామం</em>">About<br><em>the Dham</em></h2>
+      <div class="section-divider" style="justify-content:flex-start;margin:16px 0 28px;">
+        <div class="divider-line"></div><span class="divider-lotus">✦</span><div class="divider-line right"></div>
+      </div>
+      <p data-en='Shri "Uma Ramalingeswara Swami" temples are extremely sacred and hold great historical significance. Devotees perform special pujas here. According to Puranas, these are revered as the places where Rama installed Shiva to cleanse himself of Brahmahatya Dosha after slaying Ravana. Vakratunda Mahakaya Suryakoti Samaprabha — Nirvighnam Kuru Me Deva Sarva Karyeshu Sarvada 🙏'
+         data-te='శ్రీ "ఉమా రామలింగేశ్వర స్వామి" ఆలయాలు అత్యంత పవిత్రమైనవి మరియు చారిత్రక ప్రాధాన్యత కలిగినవి. వక్రతుండ మహాకాయ సూర్యకోటి సమప్రభ — నిర్విఘ్నం కురు మే దేవ సర్వ కార్యేషు సర్వదా 🙏'>
+        Shri "Uma Ramalingeswara Swami" temples are extremely sacred and hold great historical significance. Devotees perform special pujas here. According to Puranas, these are revered as the places where Rama installed Shiva to cleanse himself of Brahmahatya Dosha after slaying Ravana. Vakratunda Mahakaya Suryakoti Samaprabha — Nirvighnam Kuru Me Deva Sarva Karyeshu Sarvada 🙏
+      </p>
+      <a href="#" class="btn-primary" data-en="Learn More" data-te="మరింత తెలుసుకోండి">Learn More</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT3 – Venkateswara -->
+<section class="about-section" id="about3">
+  <div class="about-grid">
+    <div class="about-image-wrapper reveal">
+      <div class="about-image-frame">
+        <div class="deity-placeholder"><img src="uploads/main6-photo.jpeg" alt="Venkateswara" width="100%" onerror="this.style.opacity=0.3"></div>
+        <div class="corner-ornament tl"></div><div class="corner-ornament tr"></div>
+        <div class="corner-ornament bl"></div><div class="corner-ornament br"></div>
+      </div>
+      <div class="about-badge">
+        <span class="badge-year">18th</span>
+        <span class="badge-label" data-en="Founded" data-te="స్థాపించబడింది">Founded</span>
+      </div>
+    </div>
+    <div id="Venkateswara" class="about-content reveal">
+      <span class="tagline" data-en="Rooted in Sanatan Dharma" data-te="సనాతన ధర్మంలో వేళ్ళూని">Rooted in Sanatan Dharma</span>
+      <h2 data-en="About<br><em>the Dham</em>" data-te="ఆలయం గురించి<br><em>ధామం</em>">About<br><em>the Dham</em></h2>
+      <div class="section-divider" style="justify-content:flex-start;margin:16px 0 28px;">
+        <div class="divider-line"></div><span class="divider-lotus">✦</span><div class="divider-line right"></div>
+      </div>
+      <p data-en="Shri Venkateswara Swami Temple, known as Kali Yuga Vaikuntham, is believed to be the place where Vishnu manifested as Venkateswara to protect devotees from the defects of Kali Yuga. It is celebrated as one of the wealthiest and most renowned Hindu temples, built in South Indian architectural style. Vakratunda Mahakaya Suryakoti Samaprabha — Nirvighnam Kuru Me Deva Sarva Karyeshu Sarvada 🙏"
+         data-te="శ్రీ వెంకటేశ్వర స్వామి వారి ఆలయం కలియుగ వైకుంఠంగా పిలవబడే ఇక్కడ, కలియుగ దోషాల నుండి రక్షించడానికి విష్ణువు వెంకటేశ్వరుడిగా స్వయంభువుగా వెలిశాడని నమ్మకం. వక్రతుండ మహాకాయ సూర్యకోటి సమప్రభ — నిర్విఘ్నం కురు మే దేవ సర్వ కార్యేషు సర్వదా 🙏">
+        Shri Venkateswara Swami Temple, known as Kali Yuga Vaikuntham, is believed to be where Vishnu manifested as Venkateswara to protect devotees from the defects of Kali Yuga. Vakratunda Mahakaya Suryakoti Samaprabha — Nirvighnam Kuru Me Deva Sarva Karyeshu Sarvada 🙏
+      </p>
+      <a href="#" class="btn-primary" data-en="Learn More" data-te="మరింత తెలుసుకోండి">Learn More</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     OFFERINGS — 3 cards only, no Community Seva
+     Each card is a direct <a> child of the grid.
+═══════════════════════════════════════ -->
+<section class="offerings-section" id="offerings">
+  <div class="section-header reveal">
+    <span class="section-eyebrow" data-en="Divine Services" data-te="దైవిక సేవలు">Divine Services</span>
+    <h2 data-en="Our Sacred Offerings" data-te="మా పవిత్ర సేవలు">Our Sacred Offerings</h2>
+    <div class="section-divider">
+      <div class="divider-line"></div><span class="divider-lotus">✦</span><div class="divider-line right"></div>
+    </div>
+  </div>
+
+  <div class="offerings-grid">
+
+    <!-- Card 1 -->
+    <a href="pooja.html">
+      <div class="offering-card reveal">
+        <div class="offering-icon">🪔</div>
+        <h3 data-en="Daily Pujas" data-te="నిత్య పూజలు">Daily Pujas</h3>
+        <p data-en="Six daily pujas performed by trained priests following Pancharatra Agama — from Mangala Aarti at dawn to Shayana at dusk."
+           data-te="పంచారాత్ర ఆగమ పద్ధతిలో శిక్షణ పొందిన అర్చకులచే ఆరు నిత్య పూజలు నిర్వహించబడతాయి — ఉదయం మంగళ ఆరతి నుండి సాయంత్రం శయన పూజ వరకు.">
+          Six daily pujas performed by trained priests following Pancharatra Agama — from Mangala Aarti at dawn to Shayana at dusk.
+        </p>
+        <span class="offering-price" data-en="Open to All Devotees" data-te="అందరు భక్తులకు అందుబాటులో">Open to All Devotees</span>
+      </div>
+    </a>
+
+    <!-- Card 2 -->
+    <a href="register.html">
+      <div class="offering-card reveal">
+        <div class="offering-icon">🔔</div>
+        <h3 data-en="Special Aartis" data-te="ప్రత్యేక ఆరతులు">Special Aartis</h3>
+        <p data-en="Mahamangala Aarti on festival days with full orchestra and floral decorations. Registration available online."
+           data-te="పండుగ రోజులలో పూర్తి వాద్యమేళం మరియు పుష్ప అలంకరణతో మహామంగళ ఆరతి. ఆన్‌లైన్‌లో నమోదు అందుబాటులో ఉంది.">
+          Mahamangala Aarti on festival days with full orchestra and floral decorations. Registration available online.
+        </p>
+        <span class="offering-price" data-en="Registration Required" data-te="నమోదు అవసరం">Registration Required</span>
+      </div>
+    </a>
+
+    <!-- Card 3 -->
+    <a href="donate.html">
+      <div class="offering-card reveal">
+        <div class="offering-icon">🍚</div>
+        <h3 data-en="Sponsor Annadaan" data-te="అన్నదాన స్పాన్సర్">Sponsor Annadaan</h3>
+        <p data-en="Feed hundreds in the name of a loved one or festival. The highest form of charity — annadaan is mahadan."
+           data-te="ఒక ప్రియమైన వ్యక్తి పేరున లేదా పండుగ సందర్భంగా వందలాదిమందికి భోజనం పెట్టండి. అత్యున్నత దానం — అన్నదానమే మహాదానం.">
+          Feed hundreds in the name of a loved one or festival. The highest form of charity — annadaan is mahadan.
+        </p>
+        <span class="offering-price" data-en="From ₹1,100" data-te="₹1,100 నుండి">From ₹1,100</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- PUJA TIMINGS -->
+<section class="timings-section">
+  <div class="section-header reveal">
+    <span class="section-eyebrow" style="color:var(--gold-light);" data-en="Daily Schedule" data-te="రోజువారీ వేళాపట్టిక">Daily Schedule</span>
+    <h2 data-en="Puja Timings" data-te="పూజా వేళలు">Puja Timings</h2>
+    <div class="section-divider">
+      <div class="divider-line" style="background:linear-gradient(90deg,transparent,var(--gold-light));"></div>
+      <span class="divider-lotus" style="color:var(--gold-light);">✦</span>
+      <div class="divider-line right" style="background:linear-gradient(90deg,var(--gold-light),transparent);"></div>
+    </div>
+  </div>
+  <div class="timings-grid reveal" style="max-width:900px;margin:0 auto;">
+    <div class="timing-row">
+      <span class="timing-puja" data-en="Mangala Aarti"  data-te="మంగళ ఆరతి">Mangala Aarti</span>
+      <span class="timing-time">5:00 AM</span>
+      <span class="timing-days" data-en="Daily" data-te="ప్రతిరోజూ">Daily</span>
+    </div>
+    <div class="timing-row">
+      <span class="timing-puja" data-en="Abhishek Puja" data-te="అభిషేక పూజ">Abhishek Puja</span>
+      <span class="timing-time">6:30 AM</span>
+      <span class="timing-days" data-en="Mon, Thu, Festivals" data-te="సోమ, గురు, పండుగలు">Mon, Thu, Festivals</span>
+    </div>
+    <div class="timing-row">
+      <span class="timing-puja" data-en="Sandhya Aarti" data-te="సంధ్య ఆరతి">Sandhya Aarti</span>
+      <span class="timing-time">7:00 PM</span>
+      <span class="timing-days" data-en="Daily" data-te="ప్రతిరోజూ">Daily</span>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTS -->
+<section class="events-section" id="events">
+  <div class="section-header reveal">
+    <span class="section-eyebrow" data-en="Festival Calendar" data-te="పండుగల క్యాలెండర్">Festival Calendar</span>
+    <h2 data-en="Upcoming Events" data-te="రాబోయే కార్యక్రమాలు">Upcoming Events</h2>
+    <div class="section-divider">
+      <div class="divider-line"></div><span class="divider-lotus">✦</span><div class="divider-line right"></div>
+    </div>
+  </div>
+  <div class="events-container">
+    <div class="events-list reveal">
+      <div class="event-item">
+        <div class="event-date"><span class="event-day">26</span><span class="event-month">Oct</span></div>
+        <div class="event-info">
+          <h4 data-en="Diwali Mahotsav" data-te="దీపావళి మహోత్సవం">Diwali Mahotsav</h4>
+          <p data-en="Grand celebrations with illuminated rangoli, special Lakshmi puja, fireworks, and prasad distribution." data-te="వెలిగించిన ముగ్గులు, ప్రత్యేక లక్ష్మీ పూజ, టపాకాయలు మరియు ప్రసాద వితరణతో గ్రాండ్ వేడుకలు.">Grand celebrations with illuminated rangoli, special Lakshmi puja, fireworks, and prasad distribution.</p>
+          <span class="event-tag" data-en="5-Day Festival" data-te="5 రోజుల పండుగ">5-Day Festival</span>
+        </div>
+      </div>
+      <div class="event-item">
+        <div class="event-date"><span class="event-day">01</span><span class="event-month">Nov</span></div>
+        <div class="event-info">
+          <h4 data-en="Ekadashi Vrat" data-te="ఏకాదశి వ్రతం">Ekadashi Vrat</h4>
+          <p data-en="Fasting and all-day Vishnu Sahasranama chanting. Midnight aarti for Utpanna Ekadashi." data-te="ఉపవాసం మరియు రోజంతా విష్ణు సహస్రనామ పారాయణ. ఉత్పన్న ఏకాదశికి అర్థరాత్రి ఆరతి.">Fasting and all-day Vishnu Sahasranama chanting. Midnight aarti for Utpanna Ekadashi.</p>
+          <span class="event-tag" data-en="Devotional Fast" data-te="భక్తి ఉపవాసం">Devotional Fast</span>
+        </div>
+      </div>
+      <div class="event-item">
+        <div class="event-date"><span class="event-day">15</span><span class="event-month">Nov</span></div>
+        <div class="event-info">
+          <h4 data-en="Gita Jayanti" data-te="గీతా జయంతి">Gita Jayanti</h4>
+          <p data-en="The divine appearance day of the Bhagavad Gita — shloka recitation competitions, discourse, and drama." data-te="భగవద్గీత దివ్య ఆవిర్భావ దినం — శ్లోక పఠన పోటీలు, ప్రవచనం మరియు నాటకం.">The divine appearance day of the Bhagavad Gita — shloka recitation competitions, discourse, and drama.</p>
+          <span class="event-tag" data-en="Sacred Celebration" data-te="పవిత్ర వేడుక">Sacred Celebration</span>
+        </div>
+      </div>
+      <div class="event-item">
+        <div class="event-date"><span class="event-day">23</span><span class="event-month">Nov</span></div>
+        <div class="event-info">
+          <h4 data-en="Kartik Maas Closing" data-te="కార్తీక మాస ముగింపు">Kartik Maas Closing</h4>
+          <p data-en="Grand conclusion of Kartik month with Tulsi Vivah, Diya lighting on the river, and mahaprashad." data-te="తులసి వివాహం, నదిలో దీప వెలిగింపు మరియు మహాప్రసాదంతో కార్తీక మాస గ్రాండ్ ముగింపు.">Grand conclusion of Kartik month with Tulsi Vivah, Diya lighting on the river, and mahaprashad.</p>
+          <span class="event-tag" data-en="Grand Celebration" data-te="గ్రాండ్ వేడుక">Grand Celebration</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal" style="display:flex;flex-direction:column;gap:24px;">
+      <div style="background:linear-gradient(135deg,var(--deep-maroon),var(--crimson));padding:40px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:-10px;right:-10px;font-family:'Tiro Devanagari Sanskrit',serif;font-size:80px;color:rgba(242,196,90,0.1);line-height:1;">ॐ</div>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--cream);margin-bottom:12px;" data-en="Support Our Mission" data-te="మా లక్ష్యాన్ని సమర్థించండి">Support Our Mission</h3>
+        <p style="font-size:16px;color:rgba(253,246,232,0.65);line-height:1.8;margin-bottom:28px;font-style:italic;" data-en="Your generous contribution sustains daily rituals, free education, and community service for thousands." data-te="మీ సదాశయ సహాయం వేల మందికి నిత్య పూజలు, ఉచిత విద్య మరియు సమాజ సేవను కొనసాగిస్తుంది.">Your generous contribution sustains daily rituals, free education, and community service for thousands.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <a href="donate.html" class="btn-primary" style="padding:12px 24px;font-size:11px;" data-en="Donate Now" data-te="ఇప్పుడు విరాళం ఇవ్వండి">Donate Now</a>
+          <a href="#offerings"  class="btn-outline" style="padding:11px 24px;font-size:11px;" data-en="Sponsor a Seva" data-te="సేవను స్పాన్సర్ చేయండి">Sponsor a Seva</a>
+        </div>
+      </div>
+      <div style="background:var(--parchment);padding:32px;border:1px solid rgba(200,149,26,0.2);">
+        <h4 style="font-family:'Cinzel',serif;font-size:12px;letter-spacing:0.15em;color:var(--saffron);text-transform:uppercase;margin-bottom:16px;" data-en="Join Our WhatsApp Community" data-te="మా వాట్సాప్ సమాజంలో చేరండి">Join Our WhatsApp Community</h4>
+        <p style="font-size:15px;line-height:1.8;color:var(--text-mid);margin-bottom:20px;" data-en="Enter your mobile number to instantly join our WhatsApp community and receive festival updates, puja schedules, and spiritual discourses." data-te="మీ మొబైల్ నంబర్ నమోదు చేయండి — పండుగ నవీకరణలు, పూజా వేళలు మరియు ఆధ్యాత్మిక ప్రవచనాలను పొందడానికి మా వాట్సాప్ సమాజంలో వెంటనే చేరండి.">Enter your mobile number to instantly join our WhatsApp community and receive festival updates, puja schedules, and spiritual discourses.</p>
+        <div style="display:flex;gap:8px;margin-bottom:12px;">
+          <div style="display:flex;align-items:center;background:white;border:1px solid rgba(200,149,26,0.3);padding:0 12px;"><span style="font-size:15px;">+91</span></div>
+          <input type="tel" id="waPhone" maxlength="10" placeholder="10-digit mobile number" oninput="handleWaInput(this)" style="flex:1;padding:12px 16px;border:1px solid rgba(200,149,26,0.3);background:white;"/>
+        </div>
+        <a id="waJoinBtn" href="#" target="_blank" rel="noopener" class="btn-primary"
+          style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;pointer-events:none;opacity:0.45;text-decoration:none;">
+          <span data-en="Join WhatsApp Community" data-te="వాట్సాప్ సమాజంలో చేరండి">Join WhatsApp Community</span>
+        </a>
+        <div id="waConfirm" style="display:none;margin-top:12px;padding:10px 14px;background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.35);font-size:14px;" data-en="Opening WhatsApp — you will be added to the community shortly." data-te="వాట్సాప్ తెరవబడుతోంది — మీరు త్వరలో సమాజంలో చేర్చబడతారు.">Opening WhatsApp — you will be added to the community shortly.</div>
+        <p style="margin-top:12px;font-size:12px;font-style:italic;" data-en="Your number is used only to add you to the temple WhatsApp community." data-te="మీ నంబర్ కేవలం ఆలయ వాట్సాప్ సమాజంలో చేర్చడానికి మాత్రమే వినియోగించబడుతుంది.">Your number is used only to add you to the temple WhatsApp community.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery-section">
+  <div class="section-header reveal">
+    <span class="section-eyebrow" data-en="Divya Darshan" data-te="దివ్య దర్శనం">Divya Darshan</span>
+    <h2 data-en="Gallery" data-te="గ్యాలరీ">Gallery</h2>
+    <div class="section-divider">
+      <div class="divider-line"></div><span class="divider-lotus">✦</span><div class="divider-line right"></div>
+    </div>
+  </div>
+  <div class="gallery-grid reveal">
+    <div class="gallery-item"><div class="gallery-placeholder gp1"><img src="uploads/main2-photo.jpeg" alt="శివయ్య" width="100%" height="100%" onerror="this.style.opacity=0.3"></div><div class="gallery-overlay"><span class="gallery-caption" data-en="On Mondays" data-te="సోమవారాలు రోజున">సోమవారాలు రోజున</span></div></div>
+    <div class="gallery-item"><div class="gallery-placeholder gp2"><img src="uploads/main3-photo.jpeg" alt="శివయ్య" width="100%" height="100%" onerror="this.style.opacity=0.3"></div><div class="gallery-overlay"><span class="gallery-caption" data-en="Karthika Monday" data-te="కార్తీక సోమవారం రోజు">కార్తీక సోమవారం రోజు</span></div></div>
+    <div class="gallery-item"><div class="gallery-placeholder gp3"><img src="uploads/main4-photo.jpeg" alt="శివయ్య" width="100%" height="100%" onerror="this.style.opacity=0.3"></div><div class="gallery-overlay"><span class="gallery-caption" data-en="Maha Shivaratri Day" data-te="మహా శివరాత్రి రోజు">మహా శివరాత్రి రోజు</span></div></div>
+    <div class="gallery-item"><div class="gallery-placeholder gp4"><img src="uploads/main5-photo.jpeg" alt="గణపతి" width="100%" height="100%" onerror="this.style.opacity=0.3"></div><div class="gallery-overlay"><span class="gallery-caption" data-en="On Vinayaka Chavithi Day" data-te="వినాయక చవితి రోజున">వినాయక చవితి రోజున</span></div></div>
+    <div class="gallery-item"><div class="gallery-placeholder gp5"><img src="uploads/main-photo.jpeg" alt="గణపతి" width="100%" height="100%" onerror="this.style.opacity=0.3"></div><div class="gallery-overlay"><span class="gallery-caption" data-en="Every Wednesday" data-te="ప్రతి బుధవారం రోజున">ప్రతి బుధవారం రోజున</span></div></div>
+  </div>
+</section>
+
+<!-- DONATE -->
+<section class="donate-section" id="donate">
+  <div style="position:relative;z-index:1;">
+    <div class="reveal">
+      <span class="section-eyebrow" style="color:var(--gold-light);" data-en="Dana & Seva" data-te="దాన & సేవ">Dana & Seva</span>
+      <h2 data-en="Support the <em>Sacred Mission</em>" data-te="పవిత్ర కార్యాన్ని <em>సమర్థించండి</em>">Support the <em>Sacred Mission</em></h2>
+      <p data-en="Annadaanam mahādānam — the greatest gift is the gift of sustenance. Your contribution preserves Vedic traditions for generations." data-te="అన్నదానమే మహాదానం — జీవనాధారమే అత్యుత్తమ దానం. మీ సహాయం వేద సంప్రదాయాలను తరతరాలకు కాపాడుతుంది.">Annadaanam mahādānam — the greatest gift is the gift of sustenance. Your contribution preserves Vedic traditions for generations.</p>
+    </div>
+    <a href="donate.html" class="btn-primary reveal" style="font-size:14px;padding:18px 48px;" data-en="Proceed to Donate" data-te="విరాళానికి వెళ్ళండి">Proceed to Donate</a>
+    <p style="margin-top:20px;font-size:13px;color:rgba(253,246,232,0.35);font-style:normal;font-family:'Cinzel',serif;letter-spacing:0.1em;" data-en="80G Tax Exemption Available · Secure Payment" data-te="80G పన్ను మినహాయింపు అందుబాటులో · సురక్షిత చెల్లింపు">80G Tax Exemption Available · Secure Payment</p>
+  </div>
+</section>
+
+<!-- CONTACT STRIP -->
+<div class="contact-strip" id="contact">
+  <div class="contact-item">
+    <span class="contact-icon">📍</span>
+    <div>
+      <span class="contact-text" data-en="Location" data-te="స్థానం">Location</span>
+      <span class="contact-value" data-en="Near vegetable Market, Backside of Nandi Bomma, Prathipadu Mandal, Kakinada District, Andhra Pradesh" data-te="కూరగాయల మార్కెట్ సమీపంలో, నంది బొమ్మ వెనుక వైపు, ప్రతిపాడు మండలం, కాకినాడ జిల్లా, ఆంధ్రప్రదేశ్">Near vegetable Market, Backside of Nandi Bomma,<br>Prathipadu Mandal, Kakinada District, Andhra Pradesh</span>
+    </div>
+  </div>
+  <div class="contact-item">
+    <span class="contact-icon">📞</span>
+    <div>
+      <span class="contact-text" data-en="Phone" data-te="ఫోన్">Phone</span>
+      <span class="contact-value">+91 8520087620</span>
+    </div>
+  </div>
+  <div class="contact-item">
+    <span class="contact-icon">📧</span>
+    <div>
+      <span class="contact-text" data-en="Email" data-te="ఇమెయిల్">Email</span>
+      <span class="contact-value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1347727d67617274727d726372677b7a6064727e7a53747e727a7f3d707c7e">[email&#160;protected]</a></span>
+    </div>
+  </div>
+  <div class="contact-item">
+    <span class="contact-icon">🕐</span>
+    <div>
+      <span class="contact-text" data-en="Temple Hours" data-te="ఆలయ వేళలు">Temple Hours</span>
+      <span class="contact-value" data-en="7:00 AM – 10:00 AM, 6:00 PM – 8:00 PM" data-te="ఉదయం 7:00 – 10:00, సాయంత్రం 6:00 – 8:00">7:00 AM – 10:00 AM, 6:00 PM – 8:00 PM</span>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="nav-brand" style="display:inline-flex;text-decoration:none;margin-bottom:16px;">
+        <div class="om-symbol">ॐ</div>
+        <div class="brand-text">
+          <span class="brand-name" data-en="Shri Tantra Ganapathi Swami Vari Alayam" data-te="శ్రీ తంత్ర గణపతి స్వామి వారి ఆలయం">Shri Tantra Ganapathi Swami Vari Alayam</span>
+          <span class="brand-devanagari">శ్రీ తంత్ర గణపతి స్వామి వారి ఆలయం</span>
+        </div>
+      </a>
+      <p data-en="Preserving the eternal flame of Sanatan Dharma through daily puja, community service, and Vedic education since 1978." data-te="1978 నుండి నిత్య పూజ, సమాజ సేవ మరియు వేద విద్య ద్వారా సనాతన ధర్మపు శాశ్వత జ్వాలను కాపాడుతోంది.">Preserving the eternal flame of Sanatan Dharma through daily puja, community service, and Vedic education since 1978.</p>
+      <div style="display:flex;gap:12px;">
+        <a href="#" style="width:36px;height:36px;border:1px solid rgba(200,149,26,0.3);display:flex;align-items:center;justify-content:center;font-size:16px;transition:all 0.2s;text-decoration:none;">📘</a>
+        <a href="#" style="width:36px;height:36px;border:1px solid rgba(200,149,26,0.3);display:flex;align-items:center;justify-content:center;font-size:16px;transition:all 0.2s;text-decoration:none;">📸</a>
+        <a href="#" style="width:36px;height:36px;border:1px solid rgba(200,149,26,0.3);display:flex;align-items:center;justify-content:center;font-size:16px;transition:all 0.2s;text-decoration:none;">▶️</a>
+      </div>
+    </div>
+    <div>
+      <h4 class="footer-heading" data-en="Quick Links" data-te="త్వరిత లింకులు">Quick Links</h4>
+      <ul class="footer-links">
+        <li><a href="#" data-en="About the Dham"   data-te="ధామం గురించి">About the Dham</a></li>
+        <li><a href="#" data-en="Daily Pujas"       data-te="నిత్య పూజలు">Daily Pujas</a></li>
+        <li><a href="#" data-en="Festival Calendar" data-te="పండుగల క్యాలెండర్">Festival Calendar</a></li>
+        <li><a href="#" data-en="Gallery"           data-te="గ్యాలరీ">Gallery</a></li>
+        <li><a href="#" data-en="Donate"            data-te="విరాళం">విరాళం</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="footer-heading" data-en="Spiritual Services" data-te="ఆధ్యాత్మిక సేవలు">Spiritual Services</h4>
+      <ul class="footer-links">
+        <li><a href="#" data-en="Book a Puja"      data-te="పూజ బుక్ చేయండి">Book a Puja</a></li>
+        <li><a href="#" data-en="Annadaan Seva"    data-te="అన్నదాన సేవ">Annadaan Seva</a></li>
+        <li><a href="#" data-en="Vedic Discourse"  data-te="వేద ప్రవచనం">Vedic Discourse</a></li>
+        <li><a href="#" data-en="Gita Classes"     data-te="గీతా తరగతులు">Gita Classes</a></li>
+        <li><a href="#" data-en="Marriage Rituals" data-te="వివాహ కార్యక్రమాలు">Marriage Rituals</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="footer-heading" data-en="Connect" data-te="సంప్రదింపులు">Connect</h4>
+      <ul class="footer-links">
+        <li><a href="#" data-en="Contact Us"     data-te="సంప్రదించండి">Contact Us</a></li>
+        <li><a href="#" data-en="Volunteer"      data-te="స్వచ్ఛందంగా పాల్గొనండి">Volunteer</a></li>
+        <li><a href="#" data-en="Newsletter"     data-te="వార్తాలేఖ">Newsletter</a></li>
+        <li><a href="#" data-en="Press & Media"  data-te="పత్రికలు & మీడియా">Press & Media</a></li>
+        <li><a href="#" data-en="Privacy Policy" data-te="గోప్యతా విధానం">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-om"><span>ॐ</span><span>ॐ</span><span>ॐ</span></div>
+    <p class="copyright" data-en="© 2025 Shri Gopinath Dham Trust. All Rights Reserved." data-te="© 2025 శ్రీ గోపీనాథ్ ధామ్ ట్రస్ట్. సర్వహక్కులు సురక్షితం.">© 2025 Shri Gopinath Dham Trust. All Rights Reserved.</p>
+  </div>
+</footer>
+
+<!-- ADMIN LOGIN MODAL -->
+<div id="adminModal" class="admin-modal">
+  <div class="admin-modal-content">
+    <span class="admin-close" onclick="closeAdminLogin()">&times;</span>
+    <div class="admin-header">
+      <div class="admin-icon">🔐</div>
+      <h2>Temple Admin Login</h2>
+      <p>Secure access for temple administration</p>
+    </div>
+    <form id="adminLoginForm" onsubmit="handleAdminLogin(event)">
+      <div class="admin-form-group"><label for="adminPhone">Phone Number</label><input type="tel" id="adminPhone" placeholder="Enter admin phone" maxlength="10" required></div>
+      <div class="admin-form-group"><label for="adminPassword">Password</label><input type="password" id="adminPassword" placeholder="Enter password" required></div>
+      <button type="submit" class="admin-login-btn">Login</button>
+      <div class="admin-links"><a href="#" onclick="showResetPassword()">Forgot Password?</a></div>
+    </form>
+    <div id="resetPasswordForm" style="display:none;">
+      <h3 style="color:#ffd700;margin-bottom:20px;">Reset Password</h3>
+      <div class="admin-form-group"><label for="resetPhone">Phone Number</label><input type="tel" id="resetPhone" placeholder="Enter admin phone" maxlength="10" required></div>
+      <div class="admin-form-group"><label for="newPassword">New Password</label><input type="password" id="newPassword" placeholder="Enter new password" required></div>
+      <div class="admin-form-group"><label for="confirmPassword">Confirm Password</label><input type="password" id="confirmPassword" placeholder="Confirm new password" required></div>
+      <button type="button" onclick="handlePasswordReset()" class="admin-login-btn">Reset Password</button>
+      <button type="button" onclick="showLoginForm()" class="admin-back-btn">← Back to Login</button>
+    </div>
+    <div id="adminError" class="admin-error"></div>
+    <div id="adminSuccess" class="admin-success"></div>
+  </div>
+</div>
+
+<!-- ADMIN DASHBOARD MODAL -->
+<div id="adminDashboard" class="admin-modal">
+  <div class="admin-dashboard-content">
+    <div class="admin-dashboard-header">
+      <h2>🏛️ Temple Admin Dashboard</h2>
+      <button onclick="logoutAdmin()" class="admin-logout-btn">Logout</button>
+    </div>
+    <div class="admin-dashboard-grid">
+      <div class="admin-card"><h3>📊 Donations Overview</h3><p>View donation records and manage UPI settings</p><button onclick="alert('Feature: Connect to Google Sheets')" class="admin-btn">Manage</button></div>
+      <div class="admin-card"><h3>📋 Arathi Registrations</h3><p>View Darshan registration submissions</p><button onclick="alert('Feature: Connect to Google Sheets')" class="admin-btn">View</button></div>
+      <div class="admin-card"><h3>📱 WhatsApp Community</h3><p>Manage community settings and member updates</p><button onclick="alert('Feature: WhatsApp management')" class="admin-btn">Settings</button></div>
+      <div class="admin-card"><h3>🔧 Website Content</h3><p>Update temple information and announcements</p><button onclick="alert('Feature: CMS')" class="admin-btn">Edit</button></div>
+      <div class="admin-card"><h3>🔑 Security Settings</h3><p>Change admin password and security options</p><button onclick="showChangePassword()" class="admin-btn">Manage</button></div>
+      <div class="admin-card"><h3>📈 Site Analytics</h3><p>View visitor statistics and engagement data</p><button onclick="alert('Feature: Google Analytics')" class="admin-btn">View</button></div>
+    </div>
+    <div id="changePasswordSection" style="display:none;" class="admin-section">
+      <h3 style="color:#ffd700;margin-bottom:20px;">🔑 Change Admin Password</h3>
+      <div class="admin-form-group"><label>Current Password</label><input type="password" id="currentPassword" placeholder="Enter current password"></div>
+      <div class="admin-form-group"><label>New Password</label><input type="password" id="newAdminPassword" placeholder="Min 6 chars"></div>
+      <div class="admin-form-group"><label>Confirm New Password</label><input type="password" id="confirmAdminPassword" placeholder="Confirm new password"></div>
+      <button onclick="handlePasswordChange()" class="admin-btn">Update Password</button>
+      <button onclick="hideChangePassword()" class="admin-back-btn">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* NAV HAMBURGER */
+function toggleNav() {
+  const links = document.getElementById('navLinks');
+  const btn   = document.getElementById('navHamburger');
+  const ovl   = document.getElementById('navOverlay');
+  const open  = links.classList.toggle('open');
+  btn.classList.toggle('open', open);
+  ovl.classList.toggle('show', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+}
+function closeNav() {
+  document.getElementById('navLinks').classList.remove('open');
+  document.getElementById('navHamburger').classList.remove('open');
+  document.getElementById('navOverlay').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+/* LANGUAGE TOGGLE */
+let currentLang = 'te';
+function toggleLang() { currentLang = currentLang === 'te' ? 'en' : 'te'; applyLang(); }
+function applyLang() {
+  const isTE = currentLang === 'te';
+  document.getElementById('optEN').classList.toggle('active', !isTE);
+  document.getElementById('optTE').classList.toggle('active',  isTE);
+  document.querySelectorAll('[data-en]').forEach(el => {
+    const val = isTE ? el.dataset.te : el.dataset.en;
+    if (val !== undefined) el.innerHTML = val;
+  });
+  document.body.style.fontFamily = isTE ? "'Tiro Telugu','DM Sans',sans-serif" : "'EB Garamond','Cormorant Garamond',serif";
+}
+
+/* ADMIN */
+const ADMIN_CREDENTIALS = { phone: '8520087620', password: 'Temple@2026' };
+function initAdminSystem() { if (!localStorage.getItem('adminCredentials')) localStorage.setItem('adminCredentials', JSON.stringify(ADMIN_CREDENTIALS)); }
+function getAdminCredentials()     { return JSON.parse(localStorage.getItem('adminCredentials') || '{}'); }
+function updateAdminCredentials(c) { localStorage.setItem('adminCredentials', JSON.stringify(c)); }
+function openAdminLogin()  { document.getElementById('adminModal').style.display = 'block'; document.body.style.overflow = 'hidden'; }
+function closeAdminLogin() { document.getElementById('adminModal').style.display = 'none'; document.getElementById('adminDashboard').style.display = 'none'; document.body.style.overflow = 'auto'; clearAdminForms(); }
+function clearAdminForms() { document.getElementById('adminLoginForm').reset(); document.getElementById('resetPasswordForm').style.display = 'none'; document.getElementById('adminLoginForm').style.display = 'block'; clearMessages(); }
+function handleAdminLogin(event) {
+  event.preventDefault();
+  const phone = document.getElementById('adminPhone').value.trim();
+  const pass  = document.getElementById('adminPassword').value.trim();
+  const creds = getAdminCredentials();
+  if (phone === creds.phone && pass === creds.password) {
+    showAdminSuccess('🎉 Login successful! Loading dashboard...');
+    setTimeout(() => { document.getElementById('adminModal').style.display = 'none'; document.getElementById('adminDashboard').style.display = 'block'; clearAdminForms(); }, 1500);
+  } else { showAdminError('❌ Invalid credentials.'); }
+}
+function logoutAdmin() { if (confirm('Logout?')) closeAdminLogin(); }
+function showResetPassword() { document.getElementById('adminLoginForm').style.display = 'none'; document.getElementById('resetPasswordForm').style.display = 'block'; clearMessages(); }
+function showLoginForm()     { document.getElementById('resetPasswordForm').style.display = 'none'; document.getElementById('adminLoginForm').style.display = 'block'; clearMessages(); }
+function handlePasswordReset() {
+  const phone = document.getElementById('resetPhone').value.trim();
+  const np = document.getElementById('newPassword').value.trim();
+  const cp = document.getElementById('confirmPassword').value.trim();
+  const creds = getAdminCredentials();
+  if (phone !== creds.phone) { showAdminError('❌ Phone not found.'); return; }
+  if (np !== cp)              { showAdminError('❌ Passwords do not match.'); return; }
+  if (np.length < 6)          { showAdminError('❌ Min 6 characters.'); return; }
+  updateAdminCredentials({ phone: creds.phone, password: np });
+  showAdminSuccess('✅ Password reset!'); setTimeout(showLoginForm, 2000);
+}
+function showChangePassword()  { document.getElementById('changePasswordSection').style.display = 'block'; }
+function hideChangePassword()  { document.getElementById('changePasswordSection').style.display = 'none'; ['currentPassword','newAdminPassword','confirmAdminPassword'].forEach(id => document.getElementById(id).value = ''); }
+function handlePasswordChange() {
+  const cur = document.getElementById('currentPassword').value.trim();
+  const np  = document.getElementById('newAdminPassword').value.trim();
+  const cp  = document.getElementById('confirmAdminPassword').value.trim();
+  const creds = getAdminCredentials();
+  if (cur !== creds.password) { alert('❌ Wrong current password.'); return; }
+  if (np !== cp)               { alert('❌ Passwords do not match.'); return; }
+  if (np.length < 6)           { alert('❌ Min 6 chars.'); return; }
+  updateAdminCredentials({ phone: creds.phone, password: np });
+  alert('✅ Password changed!'); hideChangePassword();
+}
+function showAdminError(m)   { const d = document.getElementById('adminError');   d.textContent = m; d.style.display = 'block'; document.getElementById('adminSuccess').style.display = 'none'; }
+function showAdminSuccess(m) { const d = document.getElementById('adminSuccess'); d.textContent = m; d.style.display = 'block'; document.getElementById('adminError').style.display = 'none'; }
+function clearMessages()     { document.getElementById('adminError').style.display = 'none'; document.getElementById('adminSuccess').style.display = 'none'; }
+window.onclick = function(e) { const am = document.getElementById('adminModal'); const ad = document.getElementById('adminDashboard'); if (e.target === am || e.target === ad) closeAdminLogin(); };
+
+/* WHATSAPP */
+var WA_COMMUNITY_LINK = 'https://chat.whatsapp.com/Gz100gWRYwBBQtuGDslkVF';
+function handleWaInput(input) {
+  var phone = input.value.replace(/\D/g,'');
+  var btn   = document.getElementById('waJoinBtn');
+  var valid = /^[6-9]\d{9}$/.test(phone);
+  if (valid) {
+    btn.href = WA_COMMUNITY_LINK; btn.style.pointerEvents = 'auto'; btn.style.opacity = '1';
+    btn.onclick = function() { var c = document.getElementById('waConfirm'); c.style.display = 'block'; setTimeout(function(){ c.style.display='none'; }, 5000); };
+  } else {
+    btn.href = '#'; btn.style.pointerEvents = 'none'; btn.style.opacity = '0.45'; btn.onclick = null;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  initAdminSystem();
+  applyLang();
+});
+document.addEventListener('input', function(e) {
+  if (e.target.type === 'tel') e.target.value = e.target.value.replace(/\D/g,'').slice(0,10);
+});
+</script>
+<script src="script.js"></script>
+</body>
+</html>

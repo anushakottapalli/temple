@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>విరాళం — తంత్ర గణపతి స్వామి వారి ఆలయం</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;600&family=Tiro+Telugu&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --gold:#ffd700; --gold-dk:#b8860b; --dark:#1a0a00; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Tiro Telugu', 'Lato', sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(rgba(13,5,0,0.88), rgba(13,5,0,0.88)),
+        url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Ganapati_by_Raja_Ravi_Varma.jpg/800px-Ganapati_by_Raja_Ravi_Varma.jpg')
+        center/cover no-repeat fixed;
+      color: #fff; display: flex; flex-direction: column; align-items: center; padding: 0 0 60px;
+    }
+
+    /* LANGUAGE BAR */
+    .lang-bar {
+      width: 100%; background: linear-gradient(90deg,#110600,#1e0d00,#110600);
+      border-bottom: 1px solid rgba(255,215,0,0.22);
+      display: flex; justify-content: flex-end; align-items: center;
+      padding: 7px 20px; gap: 10px; position: sticky; top: 0; z-index: 200;
+    }
+    .lang-bar-label { font-size:11px; font-family:'Cinzel',serif; color:rgba(255,215,0,0.45); letter-spacing:.08em; }
+    .lang-toggle {
+      display:flex; align-items:center; background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,215,0,0.28); border-radius:50px;
+      padding:3px; gap:2px; cursor:pointer; user-select:none;
+    }
+    .lang-opt {
+      padding:4px 13px; border-radius:50px; font-size:11px; font-weight:700;
+      font-family:'Cinzel',serif; letter-spacing:.06em;
+      color:rgba(255,215,0,0.45); transition:all .25s; white-space:nowrap;
+    }
+    .lang-opt.active { background:linear-gradient(135deg,#b8860b,#ffd700); color:#1a0800; box-shadow:0 2px 10px rgba(255,215,0,0.35); }
+    .lang-flag { margin-right:3px; }
+
+    /* NAV */
+    nav {
+      width:100%; display:flex; align-items:center; justify-content:space-between;
+      padding:14px 32px; background:rgba(26,10,0,0.88); backdrop-filter:blur(12px);
+      border-bottom:1px solid rgba(255,215,0,0.18); position:sticky; top:34px; z-index:100;
+    }
+    .nav-brand { display:flex; align-items:center; gap:12px; text-decoration:none; }
+    .om-symbol { font-size:28px; color:var(--gold); text-shadow:0 0 12px rgba(255,215,0,0.5); }
+    .brand-text { display:flex; flex-direction:column; }
+    .brand-name { font-family:'Cinzel',serif; font-size:12px; color:var(--gold); letter-spacing:1px; }
+    .brand-sub  { font-size:10px; color:rgba(255,215,0,0.5); }
+    .back-btn {
+      display:inline-flex; align-items:center; gap:6px; color:#ffd98e; font-size:13px; font-weight:600;
+      text-decoration:none; padding:8px 16px; border:1px solid rgba(255,215,0,0.3);
+      border-radius:8px; background:rgba(255,215,0,0.06); transition:all .25s;
+    }
+    .back-btn:hover { background:rgba(255,215,0,0.14); border-color:var(--gold); color:var(--gold); }
+
+    /* HERO */
+    .donate-hero { text-align:center; padding:50px 20px 36px; animation:fadeDown .7s ease both; }
+    .donate-hero .om { font-size:44px; color:var(--gold); text-shadow:0 0 20px rgba(255,215,0,0.5); }
+    .donate-hero h1 { font-family:'Cinzel',serif; font-size:clamp(22px,4vw,36px); color:var(--gold); letter-spacing:2px; margin:10px 0 8px; }
+    .donate-hero p  { color:rgba(255,255,255,0.6); font-size:15px; max-width:520px; margin:0 auto; line-height:1.8; }
+    .divider { display:flex; align-items:center; gap:12px; max-width:400px; margin:18px auto 0; }
+    .divider span { flex:1; height:1px; background:linear-gradient(90deg,transparent,#ffd700,transparent); }
+    .divider em { color:#ffd700; font-style:normal; font-size:18px; }
+
+    /* GRID */
+    .donate-grid { display:grid; grid-template-columns:1fr 1fr; gap:28px; max-width:900px; width:100%; padding:0 20px; animation:fadeUp .8s ease both; }
+    @media(max-width:680px){ .donate-grid{grid-template-columns:1fr;} }
+
+    /* CARD */
+    .donate-card { background:rgba(255,255,255,0.04); border:1px solid rgba(255,215,0,0.22); border-radius:18px; padding:32px 28px; backdrop-filter:blur(12px); box-shadow:0 8px 40px rgba(0,0,0,0.4); }
+    .card-title { font-family:'Cinzel',serif; color:var(--gold); font-size:13px; letter-spacing:2px; text-transform:uppercase; padding-bottom:12px; margin-bottom:22px; border-bottom:1px solid rgba(255,215,0,0.2); }
+
+    /* QR */
+    .qr-wrapper { display:flex; flex-direction:column; align-items:center; gap:18px; }
+    .qr-frame { background:#fff; padding:14px; border-radius:14px; box-shadow:0 0 30px rgba(255,215,0,0.35); border:3px solid var(--gold); }
+    .qr-frame img { display:block; width:200px; height:200px; }
+    .upi-badge { background:rgba(255,215,0,0.1); border:1px solid rgba(255,215,0,0.3); border-radius:8px; padding:10px 20px; text-align:center; }
+    .upi-badge span { display:block; font-size:11px; color:rgba(255,255,255,0.45); letter-spacing:1px; margin-bottom:4px; }
+    .upi-badge strong { color:var(--gold); font-size:15px; }
+    .qr-hint { font-size:12px; color:rgba(255,255,255,0.4); text-align:center; line-height:1.7; }
+    .upi-apps { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+    .app-btn { display:inline-flex; align-items:center; gap:6px; padding:8px 14px; border-radius:8px; font-size:12px; font-weight:600; text-decoration:none; border:1px solid rgba(255,215,0,0.3); background:rgba(255,215,0,0.08); color:#ffd98e; transition:all .2s; cursor:pointer; }
+    .app-btn:hover { background:rgba(255,215,0,0.18); border-color:var(--gold); color:var(--gold); }
+    .app-icon { width:20px; height:20px; border-radius:4px; object-fit:cover; flex-shrink:0; }
+
+    /* AMOUNTS */
+    .amount-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:18px; }
+    .amount-chip { border:1.5px solid rgba(255,215,0,0.25); border-radius:10px; padding:14px 8px; text-align:center; cursor:pointer; transition:all .2s; background:rgba(255,255,255,0.03); user-select:none; }
+    .amount-chip:hover { border-color:var(--gold); background:rgba(255,215,0,0.08); }
+    .amount-chip.active { border-color:var(--gold); background:rgba(255,215,0,0.15); box-shadow:0 0 12px rgba(255,215,0,0.2); }
+    .chip-amt { display:block; font-family:'Cinzel',serif; font-size:17px; color:var(--gold); font-weight:700; }
+    .chip-lbl { display:block; font-size:11px; color:rgba(255,255,255,0.45); margin-top:4px; }
+    .custom-row { margin-bottom:20px; }
+    .custom-input { width:100%; background:rgba(255,255,255,0.07); border:1.5px solid rgba(255,215,0,0.22); border-radius:9px; color:#fff; font-size:15px; padding:11px 14px; outline:none; font-family:'Lato',sans-serif; transition:border .3s; }
+    .custom-input::placeholder { color:rgba(255,255,255,0.3); }
+    .custom-input:focus { border-color:var(--gold); box-shadow:0 0 0 3px rgba(255,215,0,0.12); }
+    .donate-btn { width:100%; padding:15px; background:linear-gradient(135deg,var(--gold-dk),var(--gold),var(--gold-dk)); background-size:200% auto; border:none; border-radius:10px; font-family:'Cinzel',serif; font-size:14px; font-weight:700; color:var(--dark); letter-spacing:1.5px; cursor:pointer; transition:background-position .4s, box-shadow .3s, transform .15s; box-shadow:0 4px 20px rgba(255,215,0,0.3); }
+    .donate-btn:hover { background-position:right center; box-shadow:0 6px 28px rgba(255,215,0,0.5); }
+    .donate-btn:active { transform:scale(0.98); }
+    .note { font-size:11px; color:rgba(255,255,255,0.3); text-align:center; margin-top:12px; }
+
+    /* INFO STRIP */
+    .info-strip { max-width:900px; width:100%; padding:0 20px; margin-top:28px; display:flex; gap:16px; flex-wrap:wrap; }
+    .info-pill { flex:1; min-width:180px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,215,0,0.15); border-radius:12px; padding:16px 20px; display:flex; align-items:center; gap:12px; }
+    .i-icon { font-size:22px; }
+    .i-text { display:flex; flex-direction:column; }
+    .i-label { font-size:11px; color:rgba(255,255,255,0.4); letter-spacing:.5px; }
+    .i-val   { font-size:13px; color:#ffd98e; font-weight:600; }
+
+    @keyframes fadeDown { from{opacity:0;transform:translateY(-18px);}to{opacity:1;transform:translateY(0);} }
+    @keyframes fadeUp   { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
+    @media(max-width:500px){ nav{padding:12px 16px;} .brand-name{font-size:10px;} .lang-bar-label{display:none;} }
+  </style>
+</head>
+<body>
+
+  <!-- LANGUAGE BAR — తెలుగు active by default -->
+  <div class="lang-bar">
+    <span class="lang-bar-label">Language / భాష :</span>
+    <div class="lang-toggle" onclick="toggleLang()">
+      <div class="lang-opt active" id="optTE"><span class="lang-flag">🇮🇳</span>తెలుగు</div>
+      <div class="lang-opt"        id="optEN"><span class="lang-flag">🇬🇧</span>English</div>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-brand">
+      <div class="om-symbol">ॐ</div>
+      <div class="brand-text">
+        <span class="brand-name" data-te="శ్రీ తంత్ర గణపతి స్వామి వారి ఆలయం" data-en="Shri Tantra Ganapathi Swami Vari Alayam">శ్రీ తంత్ర గణపతి స్వామి వారి ఆలయం</span>
+        <span class="brand-sub">శ్రీ తంత్ర గణపతి స్వామి వారి ఆలయం</span>
+      </div>
+    </a>
+    <a href="index.html" class="back-btn" data-te="← హోమ్‌కు తిరిగి వెళ్ళు" data-en="← Back to Home">← హోమ్‌కు తిరిగి వెళ్ళు</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="donate-hero">
+    <div class="om">ॐ</div>
+    <h1 data-te="దాన &amp; సేవ" data-en="Dana &amp; Seva">దాన &amp; సేవ</h1>
+    <p data-te="అన్నదానమే మహాదానం — జీవనాధారమే అత్యుత్తమ దానం. మీ సహాయం వేద సంప్రదాయాలను తరతరాలకు కాపాడుతుంది."
+       data-en="Annadaanam mahādānam — the greatest gift is the gift of sustenance. Your contribution preserves Vedic traditions for generations to come.">
+      అన్నదానమే మహాదానం — జీవనాధారమే అత్యుత్తమ దానం. మీ సహాయం వేద సంప్రదాయాలను తరతరాలకు కాపాడుతుంది.
+    </p>
+    <div class="divider"><span></span><em>✦</em><span></span></div>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="donate-grid">
+
+    <!-- LEFT: QR -->
+    <div class="donate-card">
+      <div class="card-title" data-te="స్కాన్ &amp; చెల్లించండి — UPI" data-en="Scan &amp; Pay — UPI">స్కాన్ &amp; చెల్లించండి — UPI</div>
+      <div class="qr-wrapper">
+        <div class="qr-frame">
+          <img id="qrImg" src="" alt="UPI QR Code"/>
+        </div>
+        <div class="upi-badge">
+          <span data-te="UPI ID" data-en="UPI ID">UPI ID</span>
+          <strong>8520087620@axl</strong>
+        </div>
+        <p class="qr-hint"
+           data-te="ఏదైనా UPI యాప్ తెరవండి → QR స్కాన్ చేయండి లేదా పై UPI ID నమోదు చేయండి → మొత్తం నిర్ధారించండి → చెల్లించండి"
+           data-en="Open any UPI app → Scan QR or enter UPI ID above → Confirm amount → Pay">
+          ఏదైనా UPI యాప్ తెరవండి → QR స్కాన్ చేయండి లేదా పై UPI ID నమోదు చేయండి → మొత్తం నిర్ధారించండి → చెల్లించండి
+        </p>
+        <div class="upi-apps">
+          <a class="app-btn" href="#" onclick="launchApp(event,'gpay')">
+            <img src="UPI/gpay.jpeg" alt="GPay" class="app-icon" onerror="this.style.display='none'"> GPay
+          </a>
+          <a class="app-btn" href="#" onclick="launchApp(event,'phonepe')">
+            <img src="UPI/phone-pe.png" alt="PhonePe" class="app-icon" onerror="this.style.display='none'"> PhonePe
+          </a>
+          <a class="app-btn" href="#" onclick="launchApp(event,'paytm')">
+            <img src="UPI/paytm.png" alt="Paytm" class="app-icon" onerror="this.style.display='none'"> Paytm
+          </a>
+          <a class="app-btn" href="#" onclick="launchApp(event,'bhim')">
+            <img src="UPI/Bhi.jpeg" alt="BHIM" class="app-icon" onerror="this.style.display='none'"> BHIM
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Amount -->
+    <div class="donate-card">
+      <div class="card-title" data-te="విరాళం మొత్తం ఎంచుకోండి" data-en="Choose Donation Amount">విరాళం మొత్తం ఎంచుకోండి</div>
+      <div class="amount-grid">
+        <div class="amount-chip active" onclick="selectAmt(501,this)">
+          <span class="chip-amt">₹501</span>
+          <span class="chip-lbl" data-te="నిత్య పూజా సేవ" data-en="Daily Puja Seva">నిత్య పూజా సేవ</span>
+        </div>
+        <div class="amount-chip" onclick="selectAmt(1100,this)">
+          <span class="chip-amt">₹1,100</span>
+          <span class="chip-lbl" data-te="అన్నదానం" data-en="Annadaan">అన్నదానం</span>
+        </div>
+        <div class="amount-chip" onclick="selectAmt(5100,this)">
+          <span class="chip-amt">₹5,100</span>
+          <span class="chip-lbl" data-te="పండుగ స్పాన్సర్" data-en="Festival Sponsor">పండుగ స్పాన్సర్</span>
+        </div>
+        <div class="amount-chip" onclick="selectAmt(11000,this)">
+          <span class="chip-amt">₹11,000</span>
+          <span class="chip-lbl" data-te="ఆలయ నిర్వహణ" data-en="Temple Maintenance">ఆలయ నిర్వహణ</span>
+        </div>
+      </div>
+      <div class="custom-row">
+        <input type="number" id="customAmt" class="custom-input"
+          data-ph-te="లేదా మీ మొత్తం నమోదు చేయండి (₹)"
+          data-ph-en="Or enter custom amount (₹)"
+          placeholder="లేదా మీ మొత్తం నమోదు చేయండి (₹)"
+          min="1" oninput="onCustom()"/>
+      </div>
+      <button class="donate-btn" onclick="proceedDonate()"
+              data-te="🙏 ఇప్పుడు UPI ద్వారా విరాళం ఇవ్వండి"
+              data-en="🙏 Donate Now via UPI">
+        🙏 ఇప్పుడు UPI ద్వారా విరాళం ఇవ్వండి
+      </button>
+      <p class="note"
+         data-te="80G పన్ను మినహాయింపు &nbsp;·&nbsp; సురక్షిత UPI &nbsp;·&nbsp; తక్షణ నిర్ధారణ"
+         data-en="80G Tax Exemption &nbsp;·&nbsp; Secure UPI &nbsp;·&nbsp; Instant Confirmation">
+        80G పన్ను మినహాయింపు &nbsp;·&nbsp; సురక్షిత UPI &nbsp;·&nbsp; తక్షణ నిర్ధారణ
+      </p>
+    </div>
+
+  </div>
+
+  <!-- INFO STRIP -->
+  <div class="info-strip">
+    <div class="info-pill">
+      <span class="i-icon">📍</span>
+      <div class="i-text">
+        <span class="i-label" data-te="స్థానం" data-en="Location">స్థానం</span>
+        <span class="i-val" data-te="ప్రతిపాడు మండలం, కాకినాడ, ఆంధ్రప్రదేశ్" data-en="Prathipadu Mandal, Kakinada, AP">ప్రతిపాడు మండలం, కాకినాడ, ఆంధ్రప్రదేశ్</span>
+      </div>
+    </div>
+    <div class="info-pill">
+      <span class="i-icon">📞</span>
+      <div class="i-text">
+        <span class="i-label" data-te="సంప్రదించండి" data-en="Contact">సంప్రదించండి</span>
+        <span class="i-val">+91 8520087620</span>
+      </div>
+    </div>
+    <div class="info-pill">
+      <span class="i-icon">💳</span>
+      <div class="i-text">
+        <span class="i-label" data-te="UPI ID" data-en="UPI ID">UPI ID</span>
+        <span class="i-val">8520087620@axl</span>
+      </div>
+    </div>
+    <div class="info-pill">
+      <span class="i-icon">🏦</span>
+      <div class="i-text">
+        <span class="i-label" data-te="ఖాతా పేరు" data-en="Account Name">ఖాతా పేరు</span>
+        <span class="i-val">Mutya V.S.S.Sai Kartheek</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ══════════════════════════════════
+       DEFAULT = TELUGU
+       Click toggle → English
+       Click again  → Telugu
+    ══════════════════════════════════ */
+    var currentLang = 'te';
+    var alertMsg    = 'దయచేసి ముందుగా విరాళం మొత్తాన్ని ఎంచుకోండి లేదా నమోదు చేయండి.';
+
+    function toggleLang() {
+      currentLang = (currentLang === 'te') ? 'en' : 'te';
+      applyLang();
+    }
+
+    function applyLang() {
+      var isTE = (currentLang === 'te');
+
+      /* Highlight correct toggle button */
+      document.getElementById('optTE').classList.toggle('active',  isTE);
+      document.getElementById('optEN').classList.toggle('active', !isTE);
+
+      /* Swap all [data-te]/[data-en] text */
+      document.querySelectorAll('[data-te]').forEach(function(el) {
+        var val = isTE ? el.getAttribute('data-te') : el.getAttribute('data-en');
+        if (val !== null) el.innerHTML = val;
+      });
+
+      /* Swap placeholders */
+      document.querySelectorAll('[data-ph-te]').forEach(function(el) {
+        el.placeholder = isTE
+          ? (el.getAttribute('data-ph-te') || '')
+          : (el.getAttribute('data-ph-en') || '');
+      });
+
+      /* Font */
+      document.body.style.fontFamily = isTE
+        ? "'Tiro Telugu','Lato',sans-serif"
+        : "'Lato',sans-serif";
+
+      /* Alert text */
+      alertMsg = isTE
+        ? 'దయచేసి ముందుగా విరాళం మొత్తాన్ని ఎంచుకోండి లేదా నమోదు చేయండి.'
+        : 'Please select or enter a donation amount first.';
+    }
+
+    /* UPI Config */
+    var UPI_ID   = '8520087620@axl';
+    var UPI_NAME = 'Mutya%20V.S.S.Sai%20Kartheek';
+    var UPI_NOTE = 'Donation%20to%20Tantra%20Ganapathi%20Swami%20Vari%20Alayam';
+    var currentAmount = 501;
+
+    function buildUPIData(amount) {
+      return 'upi://pay?pa='+UPI_ID+'&pn='+UPI_NAME+'&am='+amount+'&cu=INR&tn='+UPI_NOTE;
+    }
+
+    function updateQR(amount) {
+      document.getElementById('qrImg').src =
+        'https://api.qrserver.com/v1/create-qr-code/?size=200x200&ecc=M&data='
+        + encodeURIComponent(buildUPIData(amount));
+    }
+
+    function selectAmt(amt, el) {
+      currentAmount = amt;
+      document.getElementById('customAmt').value = '';
+      document.querySelectorAll('.amount-chip').forEach(function(c){ c.classList.remove('active'); });
+      el.classList.add('active');
+      updateQR(amt);
+    }
+
+    function onCustom() {
+      var val = parseInt(document.getElementById('customAmt').value);
+      if (val && val > 0) {
+        currentAmount = val;
+        document.querySelectorAll('.amount-chip').forEach(function(c){ c.classList.remove('active'); });
+        updateQR(val);
+      }
+    }
+
+    function buildAppLink(app, amount) {
+      var base = 'pa='+encodeURIComponent(UPI_ID)+'&pn='+UPI_NAME+'&am='+amount+'&cu=INR&tn='+UPI_NOTE;
+      return ({gpay:'tez://upi/pay?'+base, phonepe:'phonepe://pay?'+base, paytm:'paytmmp://pay?'+base, bhim:'upi://pay?'+base})[app] || 'upi://pay?'+base;
+    }
+
+    function launchApp(e, app) {
+      e.preventDefault();
+      if (!currentAmount || currentAmount < 1) { alert(alertMsg); return; }
+      window.location.href = buildAppLink(app, currentAmount);
+    }
+
+    function proceedDonate() {
+      if (!currentAmount || currentAmount < 1) { alert(alertMsg); return; }
+      window.location.href = buildUPIData(currentAmount);
+    }
+
+    /* Init */
+    updateQR(501);
+  </script>
+
+</body>
+</html> 

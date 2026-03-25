@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>తంత్ర గణపతి స్వామి వారి ఆలయం - ఆరతి దర్శన నమోదు</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;600&family=Tiro+Telugu&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Tiro Telugu', 'Lato', sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(rgba(20,10,0,0.85), rgba(20,10,0,0.85)),
+        url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Ganapati_by_Raja_Ravi_Varma.jpg/800px-Ganapati_by_Raja_Ravi_Varma.jpg')
+        center/cover no-repeat fixed;
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: flex-start; padding: 0 0 50px;
+    }
+    .lang-bar {
+      width: 100%;
+      background: linear-gradient(90deg, #110600, #1e0d00, #110600);
+      border-bottom: 1px solid rgba(255,215,0,0.22);
+      display: flex; justify-content: flex-end; align-items: center;
+      padding: 8px 20px; gap: 10px; position: sticky; top: 0; z-index: 500;
+    }
+    .lang-bar-label { font-size: 11px; font-family: 'Cinzel', serif; color: rgba(255,215,0,0.45); letter-spacing: 0.08em; }
+    .lang-toggle {
+      display: flex; align-items: center; background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,215,0,0.28); border-radius: 50px;
+      padding: 3px; gap: 2px; cursor: pointer; user-select: none;
+    }
+    .lang-opt {
+      padding: 5px 15px; border-radius: 50px; font-size: 11px; font-weight: 700;
+      font-family: 'Cinzel', serif; letter-spacing: 0.06em;
+      color: rgba(255,215,0,0.45); transition: all 0.25s; white-space: nowrap;
+    }
+    .lang-opt.active { background: linear-gradient(135deg,#b8860b,#ffd700); color: #1a0800; box-shadow: 0 2px 10px rgba(255,215,0,0.35); }
+    .lang-flag { margin-right: 3px; }
+    .page-inner { width: 100%; display: flex; flex-direction: column; align-items: center; padding: 20px 16px 0; }
+    .top-nav { width: 100%; max-width: 560px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px; color: #ffd98e;
+      font-size: 13px; font-weight: 600; text-decoration: none; letter-spacing: 0.5px;
+      padding: 8px 14px; border: 1px solid rgba(255,215,0,0.25); border-radius: 8px;
+      background: rgba(255,255,255,0.04); transition: all 0.25s;
+    }
+    .back-link:hover { background: rgba(255,215,0,0.1); border-color: #ffd700; color: #ffd700; }
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.78); z-index: 1000; align-items: center; justify-content: center; }
+    .modal-overlay.show { display: flex; }
+    .modal-box { background: #1a0a00; border: 2px solid #ffd700; border-radius: 16px; padding: 32px 28px; max-width: 360px; width: 90%; text-align: center; box-shadow: 0 0 40px rgba(255,215,0,0.3); animation: fadeUp 0.3s ease; }
+    .modal-box .modal-icon { font-size: 36px; margin-bottom: 12px; }
+    .modal-box h3 { font-family: 'Cinzel', serif; color: #ffd700; font-size: 16px; margin-bottom: 10px; letter-spacing: 1px; }
+    .modal-box p  { color: rgba(255,255,255,0.7); font-size: 14px; line-height: 1.6; margin-bottom: 20px; }
+    .modal-close-btn { background: linear-gradient(135deg,#b8860b,#ffd700); border: none; border-radius: 8px; padding: 10px 28px; font-family: 'Cinzel', serif; font-size: 13px; font-weight: 700; color: #1a0a00; cursor: pointer; letter-spacing: 1px; }
+    .modal-close-btn:hover { opacity: 0.88; }
+    .temple-header { text-align: center; margin-bottom: 28px; animation: fadeDown 0.8s ease both; }
+    .temple-header .deity-icon { display: flex; justify-content: center; margin-bottom: 10px; }
+    .temple-header .deity-icon img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid #ffd700; box-shadow: 0 0 24px rgba(255,215,0,0.6); }
+    .temple-header h1 { font-family: 'Cinzel', serif; font-size: clamp(17px,4vw,26px); color: #ffd700; letter-spacing: 2px; margin-top: 10px; text-shadow: 0 0 18px rgba(255,200,0,0.6); }
+    .temple-header h2 { font-family: 'Cinzel', serif; font-size: clamp(11px,2.5vw,15px); color: #ffb347; letter-spacing: 3px; margin-top: 6px; font-weight: 400; }
+    .divider { display: flex; align-items: center; gap: 12px; margin: 14px auto 0; max-width: 400px; }
+    .divider span { flex: 1; height: 1px; background: linear-gradient(90deg,transparent,#ffd700,transparent); }
+    .divider em   { color: #ffd700; font-style: normal; font-size: 18px; }
+    .form-card {
+      background: rgba(255,255,255,0.04); backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,215,0,0.25); border-radius: 20px;
+      padding: clamp(24px,5vw,44px); max-width: 560px; width: 100%;
+      box-shadow: 0 8px 48px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,215,0,0.1);
+      animation: fadeUp 0.9s ease both;
+    }
+    .section-title { font-family: 'Cinzel', serif; color: #ffd700; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; margin: 22px 0 14px; padding-bottom: 6px; border-bottom: 1px solid rgba(255,215,0,0.2); }
+    .section-title:first-of-type { margin-top: 0; }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-group { margin-bottom: 18px; position: relative; }
+    label { display: block; font-size: 13px; font-weight: 600; color: #ffd98e; margin-bottom: 6px; letter-spacing: 0.5px; }
+    label .req { color: #ff6b6b; margin-left: 2px; }
+    .input-wrap { position: relative; }
+    input, select, textarea {
+      width: 100%; background: rgba(255,255,255,0.07); border: 1.5px solid rgba(255,215,0,0.22);
+      border-radius: 9px; color: #fff; font-size: 15px; font-family: 'Tiro Telugu','Lato',sans-serif;
+      padding: 11px 14px; outline: none; transition: border 0.3s, box-shadow 0.3s, background 0.3s;
+    }
+    textarea { resize: vertical; min-height: 80px; }
+    input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.35); }
+    select option { background: #1a0a00; color: #fff; }
+    input:focus, select:focus, textarea:focus { border-color: #ffd700; background: rgba(255,215,0,0.07); box-shadow: 0 0 0 3px rgba(255,215,0,0.15); }
+    input.err, select.err, textarea.err { border-color: #ff6b6b; box-shadow: 0 0 0 3px rgba(255,107,107,0.15); }
+    input.ok { border-color: #69db7c; }
+    .err-msg { font-size: 12px; color: #ff9a9a; margin-top: 5px; display: none; padding-left: 4px; }
+    .err-msg.show { display: block; }
+    .arathi-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-top: 4px; }
+    .arathi-card { border: 1.5px solid rgba(255,215,0,0.22); border-radius: 10px; padding: 18px 8px; text-align: center; cursor: pointer; transition: all 0.25s; background: rgba(255,255,255,0.04); user-select: none; }
+    .arathi-card:hover  { border-color: #ffd700; background: rgba(255,215,0,0.08); }
+    .arathi-card.selected { border-color: #ffd700; background: rgba(255,215,0,0.15); box-shadow: 0 0 14px rgba(255,215,0,0.25); }
+    .arathi-card .a-numeral { display: block; font-family: 'Cinzel', serif; font-size: 20px; color: #ffd700; margin-bottom: 8px; font-weight: 700; }
+    .arathi-card .a-name { font-size: 12px; color: #ffd98e; font-weight: 600; display: block; }
+    .arathi-card .a-time { font-size: 11px; color: rgba(255,255,255,0.45); margin-top: 4px; display: block; }
+    input[type="radio"].arathi-radio { display: none; }
+    .arathi-err { font-size: 12px; color: #ff9a9a; margin-top: 8px; display: none; padding-left: 4px; }
+    .arathi-err.show { display: block; }
+    .submit-btn {
+      width: 100%; margin-top: 28px; padding: 15px;
+      background: linear-gradient(135deg,#b8860b,#ffd700,#b8860b); background-size: 200% auto;
+      border: none; border-radius: 10px; font-family: 'Cinzel', serif;
+      font-size: 15px; font-weight: 700; color: #1a0a00; letter-spacing: 2px;
+      cursor: pointer; transition: background-position 0.4s, box-shadow 0.3s, transform 0.15s;
+      box-shadow: 0 4px 20px rgba(255,215,0,0.3);
+    }
+    .submit-btn:hover  { background-position: right center; box-shadow: 0 6px 28px rgba(255,215,0,0.5); }
+    .submit-btn:active { transform: scale(0.98); }
+    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .success-box { display: none; margin-top: 22px; background: rgba(105,219,124,0.12); border: 1px solid rgba(105,219,124,0.4); border-radius: 10px; padding: 20px; text-align: center; animation: fadeUp 0.5s ease; }
+    .success-box h3 { font-family: 'Cinzel', serif; color: #69db7c; font-size: 16px; margin-bottom: 8px; letter-spacing: 1px; }
+    .success-box p  { color: rgba(255,255,255,0.65); font-size: 13px; line-height: 1.7; }
+    .error-box { display: none; margin-top: 22px; background: rgba(255,107,107,0.12); border: 1px solid rgba(255,107,107,0.4); border-radius: 10px; padding: 20px; text-align: center; }
+    .error-box h3 { font-family: 'Cinzel', serif; color: #ff9a9a; font-size: 15px; margin-bottom: 6px; }
+    .error-box p  { color: rgba(255,255,255,0.55); font-size: 13px; }
+    .form-footer { text-align: center; margin-top: 18px; font-size: 12px; color: rgba(255,255,255,0.3); letter-spacing: 0.5px; }
+    @keyframes fadeDown { from { opacity:0; transform:translateY(-20px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeUp   { from { opacity:0; transform:translateY(20px);  } to { opacity:1; transform:translateY(0); } }
+    @media (max-width: 480px) {
+      .arathi-grid { grid-template-columns: 1fr; }
+      .field-row   { grid-template-columns: 1fr; }
+      .lang-opt    { padding: 5px 10px; font-size: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Language Bar — Telugu active by default -->
+  <div class="lang-bar">
+    <span class="lang-bar-label">Language / భాష :</span>
+    <div class="lang-toggle" onclick="toggleLang()">
+      <div class="lang-opt active" id="optTE"><span class="lang-flag">🇮🇳</span>తెలుగు</div>
+      <div class="lang-opt"        id="optEN"><span class="lang-flag">🇬🇧</span>English</div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-box">
+      <div class="modal-icon">⚠️</div>
+      <h3 id="modalTitle">ఫీల్డ్ అవసరం</h3>
+      <p  id="modalMessage">సమర్పించే ముందు అన్ని అవసర ఫీల్డ్‌లను పూరించండి.</p>
+      <button class="modal-close-btn" onclick="closeModal()" id="modalCloseBtn"
+        data-te="సరే, అర్థమైంది" data-en="OK, Got It">సరే, అర్థమైంది</button>
+    </div>
+  </div>
+
+  <div class="page-inner">
+
+    <!-- Top Nav — Telugu by default -->
+    <div class="top-nav">
+      <a href="index.html" class="back-link"
+         data-te="← హోమ్‌కు తిరిగి వెళ్ళు" data-en="← Back to Home">← హోమ్‌కు తిరిగి వెళ్ళు</a>
+      <span style="font-family:'Cinzel',serif;color:#ffd98e;font-size:11px;letter-spacing:1px;"
+            data-te="ఆరతి దర్శనం" data-en="Arathi Darshan">ఆరతి దర్శనం</span>
+    </div>
+
+    <!-- Header — Telugu by default -->
+    <div class="temple-header">
+      <div class="deity-icon">
+        <img src="uploads/Main-photo.jpeg" alt="Tantra Ganapathi Swami" onerror="this.style.display='none'"/>
+      </div>
+      <h1 data-te="తంత్ర గణపతి స్వామి వారి ఆలయం"
+          data-en="Tantra Ganapathi Swami Vari Alayam">తంత్ర గణపతి స్వామి వారి ఆలయం</h1>
+      <h2 data-te="పవిత్ర ఆరతి దర్శన నమోదు"
+          data-en="Sacred Arathi Darshan Registration">పవిత్ర ఆరతి దర్శన నమోదు</h2>
+      <div class="divider"><span></span><em>ॐ</em><span></span></div>
+    </div>
+
+    <!-- Form Card -->
+    <div class="form-card">
+      <form id="regForm" novalidate>
+
+        <div class="section-title"
+             data-te="భక్తుని వివరాలు" data-en="Devotee Information">భక్తుని వివరాలు</div>
+
+        <!-- Full Name -->
+        <div class="form-group">
+          <label for="name">
+            <span data-te="పూర్తి పేరు" data-en="Full Name">పూర్తి పేరు</span>
+            <span class="req">*</span>
+          </label>
+          <div class="input-wrap">
+            <input type="text" id="name"
+              data-ph-te="మీ పూర్తి పేరు నమోదు చేయండి"
+              data-ph-en="Enter your full name"
+              placeholder="మీ పూర్తి పేరు నమోదు చేయండి" autocomplete="name"/>
+          </div>
+          <div class="err-msg" id="nameErr"
+               data-te="దయచేసి చెల్లుబాటు అయ్యే పూర్తి పేరు నమోదు చేయండి (కనిష్టం 3 అక్షరాలు)."
+               data-en="Please enter a valid full name (letters only, minimum 3 characters).">
+            దయచేసి చెల్లుబాటు అయ్యే పూర్తి పేరు నమోదు చేయండి (కనిష్టం 3 అక్షరాలు).
+          </div>
+        </div>
+
+        <!-- Nakshatram + Gothram -->
+        <div class="field-row">
+          <div class="form-group">
+            <label for="nakshatram">
+              <span data-te="నక్షత్రం" data-en="Nakshatram">నక్షత్రం</span>
+              <span class="req">*</span>
+            </label>
+            <div class="input-wrap">
+              <input type="text" id="nakshatram"
+                data-ph-te="ఉదా: రోహిణి, కృత్తిక"
+                data-ph-en="e.g. Rohini, Krittika"
+                placeholder="ఉదా: రోహిణి, కృత్తిక"/>
+            </div>
+            <div class="err-msg" id="nakshatramErr"
+                 data-te="దయచేసి మీ నక్షత్రం నమోదు చేయండి."
+                 data-en="Please enter your Nakshatram.">
+              దయచేసి మీ నక్షత్రం నమోదు చేయండి.
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="gothram">
+              <span data-te="గోత్రం" data-en="Gothram">గోత్రం</span>
+              <span class="req">*</span>
+            </label>
+            <div class="input-wrap">
+              <input type="text" id="gothram"
+                data-ph-te="ఉదా: కశ్యప, భరద్వాజ"
+                data-ph-en="e.g. Kashyapa, Bharadwaja"
+                placeholder="ఉదా: కశ్యప, భరద్వాజ"/>
+            </div>
+            <div class="err-msg" id="gothramErr"
+                 data-te="దయచేసి మీ గోత్రం నమోదు చేయండి."
+                 data-en="Please enter your Gothram.">
+              దయచేసి మీ గోత్రం నమోదు చేయండి.
+            </div>
+          </div>
+        </div>
+
+        <!-- Address -->
+        <div class="form-group">
+          <label for="address">
+            <span data-te="చిరునామా / మీరు వచ్చిన ప్రదేశం" data-en="Address / Place You Have Come From">చిరునామా / మీరు వచ్చిన ప్రదేశం</span>
+            <span class="req">*</span>
+          </label>
+          <div class="input-wrap">
+            <textarea id="address"
+              data-ph-te="మీ నగరం, జిల్లా, రాష్ట్రం నమోదు చేయండి..."
+              data-ph-en="Enter your city, district, state..."
+              placeholder="మీ నగరం, జిల్లా, రాష్ట్రం నమోదు చేయండి..."></textarea>
+          </div>
+          <div class="err-msg" id="addressErr"
+               data-te="చిరునామా కనీసం 5 అక్షరాలు ఉండాలి."
+               data-en="Address must be at least 5 characters.">
+            చిరునామా కనీసం 5 అక్షరాలు ఉండాలి.
+          </div>
+        </div>
+
+        <!-- Mobile -->
+        <div class="form-group">
+          <label for="phone">
+            <span data-te="మొబైల్ నంబర్" data-en="Mobile Number">మొబైల్ నంబర్</span>
+            <span class="req">*</span>
+          </label>
+          <div class="input-wrap">
+            <input type="tel" id="phone"
+              data-ph-te="10-అంకెల మొబైల్ నంబర్"
+              data-ph-en="10-digit mobile number"
+              placeholder="10-అంకెల మొబైల్ నంబర్" maxlength="10"/>
+          </div>
+          <div class="err-msg" id="phoneErr"
+               data-te="చెల్లుబాటు అయ్యే 10-అంకెల భారతీయ మొబైల్ నంబర్ నమోదు చేయండి."
+               data-en="Enter a valid 10-digit Indian mobile number.">
+            చెల్లుబాటు అయ్యే 10-అంకెల భారతీయ మొబైల్ నంబర్ నమోదు చేయండి.
+          </div>
+        </div>
+
+        <!-- Select Arathi -->
+        <div class="section-title"
+             data-te="ఆరతి ఎంచుకోండి" data-en="Select Arathi">ఆరతి ఎంచుకోండి</div>
+
+        <div class="arathi-grid">
+          <label class="arathi-card" id="card-pancha" onclick="selectArathi('pancha')">
+            <input type="radio" class="arathi-radio" name="arathi" value="pancha" id="r-pancha"/>
+            <span class="a-numeral">I</span>
+            <span class="a-name" data-te="పంచ హారతి" data-en="Pancha Harathi">పంచ హారతి</span>
+            <span class="a-time" data-te="పవిత్ర పంచ జ్యోతుల సమర్పణ" data-en="Sacred Five-Flame Offering">పవిత్ర పంచ జ్యోతుల సమర్పణ</span>
+          </label>
+          <label class="arathi-card" id="card-nakshatra" onclick="selectArathi('nakshatra')">
+            <input type="radio" class="arathi-radio" name="arathi" value="nakshatra" id="r-nakshatra"/>
+            <span class="a-numeral">II</span>
+            <span class="a-name" data-te="నక్షత్ర హారతి" data-en="Nakshatra Harathi">నక్షత్ర హారతి</span>
+            <span class="a-time" data-te="నక్షత్ర ఆశీర్వాద విధి సమర్పణ" data-en="Star-Blessed Ritual Offering">నక్షత్ర ఆశీర్వాద విధి సమర్పణ</span>
+          </label>
+        </div>
+        <div class="arathi-err" id="arathiErr"
+             data-te="దయచేసి మీరు పాల్గొనాలనుకునే ఆరతిని ఎంచుకోండి."
+             data-en="Please select the Arathi you wish to attend.">
+          దయచేసి మీరు పాల్గొనాలనుకునే ఆరతిని ఎంచుకోండి.
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn"
+                data-te="🙏 శ్రీ గణపతి స్వామి దర్శనానికి నమోదు చేయండి"
+                data-en="🙏 Register for Shri Ganapathi Swami Darshan">
+          🙏 శ్రీ గణపతి స్వామి దర్శనానికి నమోదు చేయండి
+        </button>
+
+        <div class="success-box" id="successBox">
+          <h3 data-te="🙏 నమోదు విజయవంతమైంది!" data-en="🙏 Registration Successful!">🙏 నమోదు విజయవంతమైంది!</h3>
+          <p data-te="మీ వివరాలు విజయవంతంగా నమోదు చేయబడ్డాయి.<br/><strong>మీ PDF ఇన్వాయిస్ ఇప్పుడు డౌన్‌లోడ్ అవుతోంది.</strong><br/>శ్రీ గణపతి స్వామి మీపై తన దివ్య ఆశీర్వాదాలు కురిపించుగాక.<br/>మిమ్మల్ని ఆలయంలో స్వాగతించడానికి మేము ఎదురు చూస్తున్నాము."
+             data-en="Your details have been recorded successfully.<br/><strong>Your PDF invoice is downloading now.</strong><br/>May Lord Ganapathi shower His divine blessings upon you.<br/>We look forward to welcoming you to the Alayam.">
+            మీ వివరాలు విజయవంతంగా నమోదు చేయబడ్డాయి.<br/>
+            <strong>మీ PDF ఇన్వాయిస్ ఇప్పుడు డౌన్‌లోడ్ అవుతోంది.</strong><br/>
+            శ్రీ గణపతి స్వామి మీపై తన దివ్య ఆశీర్వాదాలు కురిపించుగాక.<br/>
+            మిమ్మల్ని ఆలయంలో స్వాగతించడానికి మేము ఎదురు చూస్తున్నాము.
+          </p>
+        </div>
+
+        <div class="error-box" id="errorBox">
+          <h3 data-te="⚠️ సమర్పణ నోటీసు" data-en="⚠️ Submission Notice">⚠️ సమర్పణ నోటీసు</h3>
+          <p data-te="మీ నమోదు సర్వర్‌కు సేవ్ చేయడం సాధ్యం కాలేదు. దయచేసి తర్వాత మళ్ళీ ప్రయత్నించండి."
+             data-en="Your registration could not be saved to the server. Please try again later.">
+            మీ నమోదు సర్వర్‌కు సేవ్ చేయడం సాధ్యం కాలేదు. దయచేసి తర్వాత మళ్ళీ ప్రయత్నించండి.
+          </p>
+        </div>
+
+      </form>
+    </div>
+
+    <div class="form-footer"
+         data-te="© తంత్ర గణపతి స్వామి వారి ఆలయం &nbsp;|&nbsp; సర్వహక్కులు సురక్షితం"
+         data-en="© Tantra Ganapathi Swami Vari Alayam &nbsp;|&nbsp; All Rights Reserved">
+      © తంత్ర గణపతి స్వామి వారి ఆలయం &nbsp;|&nbsp; సర్వహక్కులు సురక్షితం
+    </div>
+
+  </div>
+
+  <script>
+    /* ══════════════════════════════════
+       DEFAULT = TELUGU
+       Click toggle → English
+       Click again  → Telugu
+    ══════════════════════════════════ */
+    var currentLang = 'te';
+
+    var MSGS = {
+      en: {
+        nameEmpty:       ['Full Name Required ⚠️','The Full Name field is empty. Please enter your full name to continue.'],
+        nameInvalid:     ['Invalid Name ⚠️','Please use letters only and enter at least 3 characters for your name.'],
+        nakshatramEmpty: ['Nakshatram Required ⚠️','The Nakshatram field is empty. Please enter your birth star to continue.'],
+        gothramEmpty:    ['Gothram Required ⚠️','The Gothram field is empty. Please enter your Gothram to continue.'],
+        addrEmpty:       ['Address Required ⚠️','The Address field is empty. Please enter the place you have come from.'],
+        addrShort:       ['Address Too Short ⚠️','Please enter a more complete address (at least 5 characters).'],
+        phoneEmpty:      ['Mobile Number Required ⚠️','The Mobile Number field is empty. Please enter your 10-digit mobile number.'],
+        phoneInvalid:    ['Invalid Mobile Number ⚠️','Please enter a valid 10-digit Indian mobile number starting with 6, 7, 8, or 9.'],
+        arathi:          ['Arathi Not Selected ⚠️','Please choose either Pancha Harathi or Nakshatra Harathi to continue.'],
+        processing:      '🙏 Processing...',
+        submitDone:      '🙏 Register for Shri Ganapathi Swami Darshan',
+        panchLabel:      'Pancha Harathi (Sacred Five-Flame Offering)',
+        nakshatraLabel:  'Nakshatra Harathi (Star-Blessed Ritual Offering)'
+      },
+      te: {
+        nameEmpty:       ['పూర్తి పేరు అవసరం ⚠️','పూర్తి పేరు ఫీల్డ్ ఖాళీగా ఉంది. కొనసాగించడానికి మీ పూర్తి పేరు నమోదు చేయండి.'],
+        nameInvalid:     ['చెల్లుబాటు కాని పేరు ⚠️','దయచేసి అక్షరాలు మాత్రమే ఉపయోగించి కనిష్టం 3 అక్షరాలు నమోదు చేయండి.'],
+        nakshatramEmpty: ['నక్షత్రం అవసరం ⚠️','నక్షత్రం ఫీల్డ్ ఖాళీగా ఉంది. కొనసాగించడానికి మీ జన్మ నక్షత్రం నమోదు చేయండి.'],
+        gothramEmpty:    ['గోత్రం అవసరం ⚠️','గోత్రం ఫీల్డ్ ఖాళీగా ఉంది. కొనసాగించడానికి మీ గోత్రం నమోదు చేయండి.'],
+        addrEmpty:       ['చిరునామా అవసరం ⚠️','చిరునామా ఫీల్డ్ ఖాళీగా ఉంది. మీరు వచ్చిన ప్రదేశాన్ని నమోదు చేయండి.'],
+        addrShort:       ['చిరునామా చాలా చిన్నది ⚠️','దయచేసి మరింత పూర్తి చిరునామా నమోదు చేయండి (కనీసం 5 అక్షరాలు).'],
+        phoneEmpty:      ['మొబైల్ నంబర్ అవసరం ⚠️','మొబైల్ నంబర్ ఫీల్డ్ ఖాళీగా ఉంది. మీ 10-అంకెల నంబర్ నమోదు చేయండి.'],
+        phoneInvalid:    ['చెల్లుబాటు కాని నంబర్ ⚠️','దయచేసి 6, 7, 8 లేదా 9తో మొదలయ్యే 10-అంకెల మొబైల్ నంబర్ నమోదు చేయండి.'],
+        arathi:          ['ఆరతి ఎంచుకోలేదు ⚠️','కొనసాగించడానికి పంచ హారతి లేదా నక్షత్ర హారతి ఎంచుకోండి.'],
+        processing:      '🙏 ప్రాసెస్ అవుతోంది...',
+        submitDone:      '🙏 శ్రీ గణపతి స్వామి దర్శనానికి నమోదు చేయండి',
+        panchLabel:      'పంచ హారతి (పవిత్ర పంచ జ్యోతుల సమర్పణ)',
+        nakshatraLabel:  'నక్షత్ర హారతి (నక్షత్ర ఆశీర్వాద విధి సమర్పణ)'
+      }
+    };
+
+    function toggleLang() {
+      currentLang = (currentLang === 'te') ? 'en' : 'te';
+      applyLang();
+    }
+
+    function applyLang() {
+      var isTE = (currentLang === 'te');
+      document.getElementById('optTE').classList.toggle('active',  isTE);
+      document.getElementById('optEN').classList.toggle('active', !isTE);
+      document.querySelectorAll('[data-te]').forEach(function(el) {
+        var val = isTE ? el.getAttribute('data-te') : el.getAttribute('data-en');
+        if (val !== null) el.innerHTML = val;
+      });
+      document.querySelectorAll('[data-ph-te]').forEach(function(el) {
+        el.placeholder = isTE ? (el.getAttribute('data-ph-te')||'') : (el.getAttribute('data-ph-en')||'');
+      });
+      document.body.style.fontFamily = isTE ? "'Tiro Telugu','Lato',sans-serif" : "'Lato',sans-serif";
+    }
+
+    var APPS_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL';
+
+    function showModal(title, message) {
+      document.getElementById('modalTitle').textContent   = title;
+      document.getElementById('modalMessage').textContent = message;
+      document.getElementById('modalOverlay').classList.add('show');
+    }
+    function closeModal() { document.getElementById('modalOverlay').classList.remove('show'); }
+
+    var selectedArathi = '';
+    function selectArathi(type) {
+      selectedArathi = type;
+      ['pancha','nakshatra'].forEach(function(t) {
+        document.getElementById('card-'+t).classList.toggle('selected', t === type);
+      });
+      document.getElementById('r-'+type).checked = true;
+      document.getElementById('arathiErr').classList.remove('show');
+    }
+
+    function setErr(id, errId, show) {
+      var el = document.getElementById(id), er = document.getElementById(errId);
+      el.classList.toggle('err',  show);
+      el.classList.toggle('ok',  !show && el.value.trim() !== '');
+      er.classList.toggle('show', show);
+      return !show;
+    }
+
+    function validate() {
+      var m = MSGS[currentLang];
+      var name = document.getElementById('name').value.trim();
+      var nakshatram = document.getElementById('nakshatram').value.trim();
+      var gothram    = document.getElementById('gothram').value.trim();
+      var addr  = document.getElementById('address').value.trim();
+      var phone = document.getElementById('phone').value.trim();
+
+      if (!name)                           { setErr('name','nameErr',true); showModal(m.nameEmpty[0],m.nameEmpty[1]); return false; }
+      if (!/^[a-zA-Z\s]{3,}$/.test(name)) { setErr('name','nameErr',true); showModal(m.nameInvalid[0],m.nameInvalid[1]); return false; }
+      setErr('name','nameErr',false);
+
+      if (!nakshatram) { setErr('nakshatram','nakshatramErr',true); showModal(m.nakshatramEmpty[0],m.nakshatramEmpty[1]); return false; }
+      setErr('nakshatram','nakshatramErr',false);
+
+      if (!gothram) { setErr('gothram','gothramErr',true); showModal(m.gothramEmpty[0],m.gothramEmpty[1]); return false; }
+      setErr('gothram','gothramErr',false);
+
+      if (!addr)           { setErr('address','addressErr',true); showModal(m.addrEmpty[0],m.addrEmpty[1]); return false; }
+      if (addr.length < 5) { setErr('address','addressErr',true); showModal(m.addrShort[0],m.addrShort[1]); return false; }
+      setErr('address','addressErr',false);
+
+      if (!phone)                       { setErr('phone','phoneErr',true); showModal(m.phoneEmpty[0],m.phoneEmpty[1]); return false; }
+      if (!/^[6-9]\d{9}$/.test(phone)) { setErr('phone','phoneErr',true); showModal(m.phoneInvalid[0],m.phoneInvalid[1]); return false; }
+      setErr('phone','phoneErr',false);
+
+      if (!selectedArathi) { document.getElementById('arathiErr').classList.add('show'); showModal(m.arathi[0],m.arathi[1]); return false; }
+      document.getElementById('arathiErr').classList.remove('show');
+      return true;
+    }
+
+    function generateInvoicePDF(data) {
+      try {
+        var jsPDFLib = window.jspdf.jsPDF;
+        var doc = new jsPDFLib({unit:'mm',format:'a4'});
+        var pageW = doc.internal.pageSize.getWidth();
+        var gold=[184,134,11], dark=[26,10,0], dark2=[50,30,0], white=[255,255,255];
+        doc.setFillColor(...dark); doc.rect(0,0,pageW,297,'F');
+        doc.setFillColor(...gold); doc.rect(0,0,pageW,42,'F');
+        doc.setFont('helvetica','bold'); doc.setFontSize(15); doc.setTextColor(...dark);
+        doc.text('Tantra Ganapathi Swami Vari Alayam',pageW/2,14,{align:'center'});
+        doc.setFontSize(9); doc.setFont('helvetica','normal');
+        doc.text('Sacred Arathi Darshan — Registration Invoice',pageW/2,23,{align:'center'});
+        var refNum='TGS-'+Date.now().toString().slice(-6);
+        doc.setFontSize(8); doc.text('Booking Ref: '+refNum+'   |   Date: '+data.submitted_on,pageW/2,32,{align:'center'});
+        doc.setDrawColor(...gold); doc.setLineWidth(0.6); doc.line(14,48,pageW-14,48);
+        doc.setFont('helvetica','bold'); doc.setFontSize(14); doc.setTextColor(...gold);
+        doc.text('BOOKING CONFIRMATION',pageW/2,58,{align:'center'});
+        var y=72;
+        function sectionHead(t){ doc.setFillColor(...dark2); doc.roundedRect(14,y-5,pageW-28,11,2,2,'F'); doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(...gold); doc.text(t,18,y+2); y+=14; }
+        function row(lbl,val){ doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(255,215,100); doc.text(lbl,20,y); doc.setFont('helvetica','normal'); doc.setTextColor(...white); var lines=doc.splitTextToSize(String(val),pageW-95); doc.text(lines,78,y); y+=(lines.length>1?lines.length*6:9); }
+        sectionHead('DEVOTEE INFORMATION');
+        row('Full Name      :',data.devotee_name);
+        row('Nakshatram     :',data.devotee_nakshatram);
+        row('Gothram        :',data.devotee_gothram);
+        row('Address        :',data.devotee_address);
+        row('Mobile Number  :',data.devotee_phone);
+        y+=5; sectionHead('BOOKING DETAILS');
+        row('Arathi Selected:',data.arathi_choice);
+        row('Booking Status :','CONFIRMED ✓');
+        row('Booking Ref    :',refNum);
+        y+=6; doc.setDrawColor(...gold); doc.setLineWidth(0.5); doc.line(14,y,pageW-14,y); y+=12;
+        doc.setFillColor(40,20,0); doc.roundedRect(14,y-4,pageW-28,20,3,3,'F');
+        doc.setDrawColor(...gold); doc.setLineWidth(0.4); doc.roundedRect(14,y-4,pageW-28,20,3,3,'S');
+        doc.setFont('helvetica','bold'); doc.setFontSize(8); doc.setTextColor(...gold); doc.text('IMPORTANT:',18,y+3);
+        doc.setFont('helvetica','normal'); doc.setTextColor(...white); doc.text('Please carry a copy of this invoice when visiting the Alayam.',18,y+10); y+=28;
+        doc.setFont('helvetica','italic'); doc.setFontSize(10); doc.setTextColor(255,210,120); doc.text('Om Gam Ganapataye Namaha',pageW/2,y,{align:'center'}); y+=8;
+        doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(180,150,80); doc.text('May Lord Ganapathi bless you and your family abundantly.',pageW/2,y,{align:'center'});
+        doc.setFontSize(7); doc.setTextColor(100,80,40);
+        doc.text('Tantra Ganapathi Swami Vari Alayam  |  Prathipadu Mandal, Kakinada District, Andhra Pradesh  |  +91 8520087620',pageW/2,282,{align:'center'});
+        doc.text('© All Rights Reserved',pageW/2,288,{align:'center'});
+        doc.save('Ganapathi_Darshan_Invoice_'+data.devotee_name.replace(/\s+/g,'_')+'.pdf');
+        return true;
+      } catch(e){ console.error('PDF error:',e); return false; }
+    }
+
+    async function trySaveToSheets(payload) {
+      if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL==='YOUR_GOOGLE_APPS_SCRIPT_URL'){ console.info('Sheets URL not set.'); return; }
+      try{ await fetch(APPS_SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}); }
+      catch(e){ console.warn('Sheets save skipped:',e); }
+    }
+
+    document.getElementById('regForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      if (!validate()) return;
+      var m=MSGS[currentLang], btn=document.getElementById('submitBtn');
+      btn.disabled=true; btn.textContent=m.processing;
+      var arathiLabels={pancha:m.panchLabel, nakshatra:m.nakshatraLabel};
+      var payload={
+        devotee_name:       document.getElementById('name').value.trim(),
+        devotee_nakshatram: document.getElementById('nakshatram').value.trim(),
+        devotee_gothram:    document.getElementById('gothram').value.trim(),
+        devotee_address:    document.getElementById('address').value.trim(),
+        devotee_phone:      document.getElementById('phone').value.trim(),
+        arathi_choice:      arathiLabels[selectedArathi],
+        submitted_on:       new Date().toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})
+      };
+      await trySaveToSheets(payload);
+      generateInvoicePDF(payload);
+      document.getElementById('successBox').style.display='block';
+      document.getElementById('errorBox').style.display='none';
+      applyLang();
+      this.reset(); selectedArathi='';
+      ['pancha','nakshatra'].forEach(function(t){ document.getElementById('card-'+t).classList.remove('selected','ok'); });
+      ['name','nakshatram','gothram','address','phone'].forEach(function(id){ document.getElementById(id).classList.remove('ok','err'); });
+      setTimeout(function(){ document.getElementById('successBox').style.display='none'; }, 12000);
+      btn.disabled=false; btn.textContent=m.submitDone;
+      btn.setAttribute('data-te',MSGS.te.submitDone); btn.setAttribute('data-en',MSGS.en.submitDone);
+    });
+
+    document.addEventListener('input', function(e) {
+      if (e.target.type==='tel') e.target.value=e.target.value.replace(/\D/g,'').slice(0,10);
+    });
+  </script>
+
+</body>
+</html>
