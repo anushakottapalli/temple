@@ -993,9 +993,9 @@
 
 <script>
   /* ══ CONFIG — same UPI as first code ══ */
-  // const UPI_ID   = '8520087620@axl';
-  // const UPI_NAME = 'Mutya%20V.S.S.Sai%20Kartheek';
-  // const UPI_NOTE = 'Temple%20Pooja%20Booking';
+  const UPI_ID   = '8520087620@axl';
+  const UPI_NAME = 'Mutya%20V.S.S.Sai%20Kartheek';
+  const UPI_NOTE = 'Temple%20Pooja%20Booking';
 
   let currentLang      = 'te';
   let selectedPayMethod = 'upi';
@@ -1162,9 +1162,6 @@
   /* ── App launch — exactly matching first code logic ── */
   function launchUpiApp(event, app) {
     event.preventDefault();
-    const UPI_ID  = "8520087620@axl";
-    const UPI_NAME   = "Ganapathi Devastanam";        // change this         
-    const UPI_NOTE   = "Order Payment";
     const checked = getChecked();
     const amount  = checked.reduce((s,c) => s+parseInt(c.dataset.price||0), 0);
     if (!amount || amount < 1) {
@@ -1172,7 +1169,7 @@
       showToast(isTE ? 'ఉచిత సేవలు మాత్రమే ఉన్నాయి — చెల్లింపు అవసరం లేదు' : 'Only free sevas selected — no payment needed');
       return;
     }
-    const base = `pa=${encodeURIComponent(UPI_ID)}&pn=${UPI_NAME}&am=${amount}&cu=INR&tn=${UPI_NOTE}`;
+    const base = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${UPI_NAME}&am=${amount}&cu=INR&tn=${UPI_NOTE}`;
     const schemes = {
       gpay:    `tez://upi/pay?${base}`,
       phonepe: `phonepe://pay?${base}`,
