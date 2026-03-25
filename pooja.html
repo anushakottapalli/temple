@@ -1169,7 +1169,8 @@
       showToast(isTE ? 'ఉచిత సేవలు మాత్రమే ఉన్నాయి — చెల్లింపు అవసరం లేదు' : 'Only free sevas selected — no payment needed');
       return;
     }
-    const base = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${UPI_NAME}&am=${amount}&cu=INR&tn=${UPI_NOTE}`;
+    // const base = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${UPI_NAME}&am=${amount}&cu=INR&tn=${UPI_NOTE}`;
+    const base =`upi://pay?pa=${UPI_ID}&pn=${UPI_NAME}&am=${amount}&cu=INR&tn=${UPI_NOTE}`;
     const schemes = {
       gpay:    `tez://upi/pay?${base}`,
       phonepe: `phonepe://pay?${base}`,
