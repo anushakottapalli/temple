@@ -993,8 +993,8 @@
 
 <script>
   /* ══ CONFIG — same UPI as first code ══ */
-  const UPI_ID   = '8520087620@axl';
-  const UPI_NAME = 'Mutya%20V.S.S.Sai%20Kartheek';
+  const UPI_ID   = 'anushakottapalli01@ybl';
+  const UPI_NAME = 'anushakottapalli';
   const UPI_NOTE = 'Temple%20Pooja%20Booking';
 
   let currentLang      = 'te';
@@ -1169,8 +1169,7 @@
       showToast(isTE ? 'ఉచిత సేవలు మాత్రమే ఉన్నాయి — చెల్లింపు అవసరం లేదు' : 'Only free sevas selected — no payment needed');
       return;
     }
-    // const base = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${UPI_NAME}&am=${amount}&cu=INR&tn=${UPI_NOTE}`;
-    const base =`upi://pay?pa=${UPI_ID}&pn=${UPI_NAME}&am=${amount}&cu=INR&tn=${UPI_NOTE}`;
+    const base = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${UPI_NAME}&am=${amount}&cu=INR&tn=${UPI_NOTE}`;   
     const schemes = {
       gpay:    `tez://upi/pay?${base}`,
       phonepe: `phonepe://pay?${base}`,
