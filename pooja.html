@@ -1168,32 +1168,44 @@
     const amount = checked.reduce((s, c) => s + parseInt(c.dataset.price || 0), 0);
 
     if (!amount || amount < 1) {
-        const isTE = (currentLang === 'te');
-        showToast(isTE ? 'ఉచిత సేవలు మాత్రమే ఉన్నాయి' : 'Only free sevas selected — no payment needed');
+        showToast('Invalid Amount', 'Please select a service to pay for', 'error');
         return;
     }
 
-    // 2. Create UPI URL
-    const upiUrl = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent(UPI_NAME)}&am=${amount}&cu=INR&tn=${encodeURIComponent(UPI_NOTE)}`;
+    // 2. Prepare UPI Parameters
+    const pa = encodeURIComponent(UPI_ID);
+    const pn = encodeURIComponent(UPI_NAME);
+    const tn = encodeURIComponent(UPI_NOTE);
+    const am = amount;
 
-    // 3. Use Android Intent (Standard Method)
-    // This opens the system payment sheet where user selects PhonePe/GPay safely
-    const intentUrl = `intent://pay?${upiUrl.substring(7)}#Intent;scheme=upi;package=${getPackageId(app)};end`;
+    // 3. Construct the UPI Link
+    const upiLink = `upi://pay?pa=${pa}&pn=${pn}&am=${am}&cu=INR&tn=${tn}`;
 
-    // 4. Fallback Strategy
-    // Try opening the specific app package, or fall back to system chooser
-    if (app && app !== 'bhim') {
-        // Try opening specific app (PhonePe/GPay) via package name
-        window.location.href = intentUrl;
+    // 4. Redirect Logic
+    if (app === 'bhim' || !app) {
+        // OPTION A: Standard Method (Recommended)
+        // Opens the Android System Payment Sheet with ALL apps listed
+        window.location.href = upiLink;
     } else {
-        // Open system default UPI chooser (Standard approach)
-        window.location.href = upiUrl;
+        // OPTION B: Package Specific Method
+        // Forces the system to open the specific app (PhonePe/GPay) 
+        // via the Android Intent system.
+        const packages = {
+            phonepe: 'com.phonepe.app',
+            gpay: 'com.google.android.apps.nbu.paisa.user',
+            paytm: 'net.one97.paytm'
+        };
+        
+        const pkg = packages[app];
+        if (pkg) {
+            // This is the Android Intent URL format
+            // It tells Android: "Open this UPI link using THIS specific app package"
+            const intentUrl = `intent://pay?pa=${pa}&pn=${pn}&am=${am}&cu=INR&tn=${tn}#Intent;scheme=upi;package=${pkg};end`;
+            window.location.href = intentUrl;
+        } else {
+            window.location.href = upiLink;
+        }
     }
-    
-    // Show instructions to user
-    setTimeout(() => {
-        showToast('After Payment', 'Please return to browser and enter Transaction ID', 'info');
-    }, 3000);
 }
 
 // Helper: Get Package ID for specific apps
