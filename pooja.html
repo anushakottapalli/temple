@@ -1160,24 +1160,41 @@
   }
 
   /* ── App launch — exactly matching first code logic ── */
-  function launchUpiApp(event, app) {
+ function launchUpiApp(event, app) {
     event.preventDefault();
+    
     const checked = getChecked();
-    const amount  = checked.reduce((s,c) => s+parseInt(c.dataset.price||0), 0);
+    const amount = checked.reduce((s, c) => s + parseInt(c.dataset.price || 0), 0);
+
     if (!amount || amount < 1) {
-      const isTE = (currentLang === 'te');
-      showToast(isTE ? 'ఉచిత సేవలు మాత్రమే ఉన్నాయి — చెల్లింపు అవసరం లేదు' : 'Only free sevas selected — no payment needed');
-      return;
+        const isTE = (currentLang === 'te');
+        showToast(isTE ? 'ఉచిత సేవలు మాత్రమే ఉన్నాయి' : 'No payment needed for free services');
+        return;
     }
-    const base = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${UPI_NAME}&am=${amount}&cu=INR&tn=${UPI_NOTE}`;   
+
+    const upiParams = { pa: UPI_ID, pn: UPI_NAME, am: amount, cu: 'INR', tn: UPI_NOTE };
+    const queryString = new URLSearchParams(upiParams).toString();
+
     const schemes = {
-      gpay:    `tez://upi/pay?${base}`,
-      phonepe: `phonepe://pay?${base}`,
-      paytm:   `paytmmp://pay?${base}`,
-      bhim:    `upi://pay?${base}`,
+        gpay:    `gpay://upi/pay?${queryString}`,
+        phonepe: `phonepe://pay?${queryString}`,
+        paytm:   `paytmmp://pay?${queryString}`,
+        bhim:    `upi://pay?${queryString}`
     };
-    window.location.href = schemes[app] || `upi://pay?${base}`;
-  }
+
+    // Start timer to detect if app failed to open
+    let start = Date.now();
+    const deepLink = schemes[app] || `upi://pay?${queryString}`;
+    
+    window.location.href = deepLink;
+
+    setTimeout(function() {
+        // If the user is still on the page after 2 seconds, the app probably isn't installed
+        if (Date.now() - start < 2500) {
+            showToast("App not detected", `Please install ${app} or use UPI ID`, "warning");
+        }
+    }, 2000);
+}
 
   /* ── Process payment ── */
   function processPayment() {
