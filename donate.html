@@ -173,9 +173,9 @@
           <a class="app-btn" href="#" onclick="launchApp(event,'gpay')">
             <img src="UPI/gpay.jpeg" alt="GPay" class="app-icon" onerror="this.style.display='none'"> GPay
           </a>
-          <a class="app-btn" href="#" onclick="launchApp(event,'phonepe')">
+          <!-- <a class="app-btn" href="#" onclick="launchApp(event,'phonepe')">
             <img src="UPI/phone-pe.png" alt="PhonePe" class="app-icon" onerror="this.style.display='none'"> PhonePe
-          </a>
+          </a> -->
           <a class="app-btn" href="#" onclick="launchApp(event,'paytm')">
             <img src="UPI/paytm.png" alt="Paytm" class="app-icon" onerror="this.style.display='none'"> Paytm
           </a>
@@ -311,6 +311,7 @@
     var UPI_NOTE = 'Donation%20to%20Tantra%20Ganapathi%20Swami%20Vari%20Alayam';
     var currentAmount = 501;
 
+  
     function buildUPIData(amount) {
       return 'upi://pay?pa='+UPI_ID+'&pn='+UPI_NAME+'&am='+amount+'&cu=INR&tn='+UPI_NOTE;
     }
